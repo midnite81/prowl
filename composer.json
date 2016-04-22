@@ -1,0 +1,28 @@
+{
+    "name": "midnite81/prowl",
+    "description": "A Laravel integration of Prowl",
+    "keywords": ["php", "prowl", "laravel"],
+    "type": "php",
+    "license": "MIT",
+    "authors": [
+      {
+          "name": "Simon Rogers",
+          "email": "webdev@centralblue.co.uk"
+      }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.1.*",
+        "xenji/ProwlPHP": "^1.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "Midnite81\\Prowl\\": "src/"
+      }
+    },
+    "extra": {
+      "component": "package",
+      "frameworks": ["Laravel 5"]
+    },
+    "minimum-stability": "stable"
+}
