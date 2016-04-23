@@ -37,7 +37,7 @@ class ProwlServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('midnite81.prowl', function ($app) {
-            return new ProwlNotifier($app->make(Connector::class), $app->make(Message::class));
+            return new ProwlNotifier($app->make(Connector::class));
         });
 
         $this->app->alias('midnite81.prowl', 'Midnite81\Prowl\Contracts\Services\ProwlNotifier');

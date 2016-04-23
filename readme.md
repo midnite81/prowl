@@ -26,7 +26,7 @@ Add the `Prowl` facade to your aliases array.
 
     'aliases' => [
 
-      'Prowl' => 'Midnite81\Prowl\Facades\Prowl',
+      'Prowl' => Midnite81\Prowl\Facades\Prowl::class,
       
     ];
     
