@@ -217,7 +217,7 @@ class ProwlNotifier implements ProwlNotifierContract
      */
     public function subject($subject)
     {
-        return $this->setSubject();
+        return $this->setSubject($subject);
     }
 
     /**
