@@ -4,7 +4,6 @@ namespace Midnite81\Prowl;
 use Illuminate\Support\ServiceProvider;
 use Midnite81\Prowl\Services\ProwlNotifier;
 use Prowl\Connector;
-use Prowl\Message;
 
 
 class ProwlServiceProvider extends ServiceProvider
@@ -49,6 +48,6 @@ class ProwlServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['midnite81.prowl', 'Midnite81\Prowl\Contracts\Services\Messaging'];
+        return ['midnite81.prowl', 'Midnite81\Prowl\Contracts\Services\ProwlNotifier'];
     }
 }
