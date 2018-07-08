@@ -8,12 +8,7 @@ use Prowl\Connector;
 
 class ProwlServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
+
     /**
      * Bootstrap the application events.
      *
@@ -48,6 +43,9 @@ class ProwlServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['midnite81.prowl', 'Midnite81\Prowl\Contracts\Services\ProwlNotifier'];
+        return [
+            'midnite81.prowl',
+            'Midnite81\Prowl\Contracts\Services\ProwlNotifier'
+        ];
     }
 }
