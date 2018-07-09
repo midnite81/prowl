@@ -36,7 +36,7 @@ to play safe;
 if ($response->isSuccess()) { 
    // do something
 } else { 
-  // do something esle if failed
+  // do something else if failed
 }
 ```
 
