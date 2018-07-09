@@ -3,6 +3,7 @@
 namespace Midnite81\Prowl\Services;
 
 use Carbon\Carbon;
+use Midnite81\Xml2Array\Xml2Array;
 use Psr\Http\Message\ResponseInterface;
 
 class Response
@@ -188,7 +189,7 @@ class Response
     {
         $this->response = $response;
         $this->contents = $this->response->getBody()->getContents();
-        $this->xml = (new XmlToArray())->convert($this->contents);
+        $this->xml = Xml2Array::create($this->contents);
     }
 
     /**

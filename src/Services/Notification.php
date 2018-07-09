@@ -1,4 +1,5 @@
 <?php
+
 namespace Midnite81\Prowl\Services;
 
 use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
@@ -59,6 +60,19 @@ class Notification
     }
 
     /**
+     * Factory Create From Array Method
+     *
+     * @param $array
+     * @return static
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
+     */
+    public static function createFromArray($array)
+    {
+        return new static($array);
+    }
+
+    /**
      * Return attributes to json
      *
      * @return string
@@ -100,7 +114,10 @@ class Notification
      */
     public function getApiKeys()
     {
-        return implode(',', $this->notification['apiKey']);
+        if (! empty($this->notification['apiKey'])) {
+            return implode(',', $this->notification['apiKey']);
+        }
+        return null;
     }
 
     /**
@@ -130,7 +147,7 @@ class Notification
      */
     public function getProviderKey()
     {
-        return $this->notification['providerKey'];
+        return ! empty($this->notification['providerKey']) ? $this->notification['providerKey'] : null;
     }
 
     /**
@@ -191,7 +208,7 @@ class Notification
      */
     public function getUrl()
     {
-        return $this->notification['url'];
+        return ! empty($this->notification['url']) ? $this->notification['url'] : null;
     }
 
     /**
@@ -220,7 +237,7 @@ class Notification
      */
     public function getApplication()
     {
-        return $this->notification['application'];
+        return ! empty($this->notification['application']) ? $this->notification['application'] : null;
     }
 
     /**
@@ -249,7 +266,7 @@ class Notification
      */
     public function getEvent()
     {
-        return $this->notification['event'];
+        return ! empty($this->notification['event']) ? $this->notification['event'] : null;
     }
 
     /**
@@ -277,7 +294,7 @@ class Notification
      */
     public function getDescription()
     {
-        return $this->notification['description'];
+        return ! empty($this->notification['description']) ? $this->notification['description'] : null;
     }
 
     /**
@@ -305,7 +322,7 @@ class Notification
      */
     public function getMessage()
     {
-        return $this->getDescription();
+        return ! empty($this->getDescription()) ? $this->getDescription() : null;
     }
 
     /**
@@ -333,8 +350,10 @@ class Notification
             $this->setApiKeys($attributes['apiKey']);
         }
 
-        if (! empty($attributes['providerKey'])) {}
-        $this->setProviderKey($attributes['providerKey']);
+        if (! empty($attributes['providerKey'])) {
+            $this->setProviderKey($attributes['providerKey']);
+        }
+
 
         if (! empty($attributes['priority'])) {
             $this->setPriority($attributes['priority']);

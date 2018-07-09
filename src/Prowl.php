@@ -28,7 +28,7 @@ class Prowl
      * @param RequestFactory|null $requestFactory
      * @param array               $config
      */
-    public function __construct($httpClient = null, RequestFactory $requestFactory = null, array $config)
+    public function __construct($httpClient = null, RequestFactory $requestFactory = null, array $config = [])
     {
         $this->httpClient = $httpClient ?: HttpClientDiscovery::find();
         $this->requestFactory = $requestFactory ?: MessageFactoryDiscovery::find();
@@ -75,6 +75,30 @@ class Prowl
         $request = $this->httpClient->sendRequest($request);
 
         return Response::create($request);
+    }
+
+    /**
+     * Create a message
+     *
+     * @return Notification
+     * @throws Exceptions\IncorrectPriorityValueException
+     * @throws Exceptions\ValueTooLongException
+     */
+    public function createMessage()
+    {
+        return new Notification(func_get_args());
+    }
+
+    /**
+     * Alias of Create Message
+     *
+     * @return Notification
+     * @throws Exceptions\IncorrectPriorityValueException
+     * @throws Exceptions\ValueTooLongException
+     */
+    public function createNotification()
+    {
+        return $this->createMessage(func_get_args());
     }
 
     /**
