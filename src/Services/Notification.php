@@ -2,10 +2,11 @@
 
 namespace Midnite81\Prowl\Services;
 
+use Midnite81\Prowl\Contracts\Services\Notification as Contract;
 use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
 use Midnite81\Prowl\Exceptions\ValueTooLongException;
 
-class Notification
+class Notification implements Contract
 {
     /**
      * Notification Attributes

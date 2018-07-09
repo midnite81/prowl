@@ -5,6 +5,8 @@ use Http\Adapter\Guzzle6\Client;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Illuminate\Support\ServiceProvider;
 use Midnite81\Prowl\Contracts\Prowl as ProwlContract;
+use Midnite81\Prowl\Contracts\Services\Notification;
+use Midnite81\Prowl\Services\LaravelNotification;
 use Midnite81\Prowl\Services\ProwlNotifier;
 
 
@@ -31,9 +33,11 @@ class ProwlServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->alias('midnite81.prowl', ProwlContract::class);
+        $this->app->alias('midnite81.prowl.notification', Notification::class);
         $this->app->bind('midnite81.prowl', function() {
             return new LaravelProwl(new Client(), new GuzzleMessageFactory(), config('prowl'));
         });
+        $this->app->bind('midnite.prowl.notification', LaravelNotification::class);
         $this->mergeConfigFrom(__DIR__ . '/../config/prowl.php', 'prowl');
     }
     /**
@@ -46,6 +50,8 @@ class ProwlServiceProvider extends ServiceProvider
         return [
             'midnite81.prowl',
             ProwlContract::class,
+            'midnite81.prowl.notification',
+            Notification::class,
         ];
     }
 }
