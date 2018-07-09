@@ -1,9 +1,11 @@
 <?php
 namespace Midnite81\Prowl;
 
+use Http\Adapter\Guzzle6\Client;
+use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Illuminate\Support\ServiceProvider;
+use Midnite81\Prowl\Contracts\Prowl as ProwlContract;
 use Midnite81\Prowl\Services\ProwlNotifier;
-use Prowl\Connector;
 
 
 class ProwlServiceProvider extends ServiceProvider
@@ -17,11 +19,9 @@ class ProwlServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         $this->publishes([
             __DIR__ . '/../config/prowl.php' => config_path('prowl.php')
         ]);
-        $this->mergeConfigFrom(__DIR__ . '/../config/prowl.php', 'prowl');
     }
     /**
      * Register the service provider.
@@ -30,11 +30,11 @@ class ProwlServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('midnite81.prowl', function ($app) {
-            return new ProwlNotifier($app->make(Connector::class));
+        $this->app->alias('midnite81.prowl', ProwlContract::class);
+        $this->app->bind('midnite81.prowl', function() {
+            return new LaravelProwl(new Client(), new GuzzleMessageFactory(), config('prowl'));
         });
-
-        $this->app->alias('midnite81.prowl', 'Midnite81\Prowl\Contracts\Services\ProwlNotifier');
+        $this->mergeConfigFrom(__DIR__ . '/../config/prowl.php', 'prowl');
     }
     /**
      * Get the services provided by the provider.
@@ -45,7 +45,7 @@ class ProwlServiceProvider extends ServiceProvider
     {
         return [
             'midnite81.prowl',
-            'Midnite81\Prowl\Contracts\Services\ProwlNotifier'
+            ProwlContract::class,
         ];
     }
 }

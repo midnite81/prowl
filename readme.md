@@ -1,6 +1,11 @@
 # Prowl [![Latest Stable Version](https://poser.pugx.org/midnite81/prowl/version)](https://packagist.org/packages/midnite81/prowl) [![Total Downloads](https://poser.pugx.org/midnite81/prowl/downloads)](https://packagist.org/packages/midnite81/prowl) [![Latest Unstable Version](https://poser.pugx.org/midnite81/prowl/v/unstable)](https://packagist.org/packages/midnite81/prowl) [![License](https://poser.pugx.org/midnite81/prowl/license.svg)](https://packagist.org/packages/midnite81/prowl)
 
-A Prowl integration for Laravel, based on a package by [xenji](https://github.com/xenji/ProwlPHP)
+# Http Standards
+
+To adhere to better standards, this package uses the popular and powerful PHP-HTTP library 
+to make HTTP requests. By default a Guzzle adapter is required when using `midnite81\prowl`.
+This allows you, should you wish, to use your own HTTP Client instead of Guzzle. For more 
+information on PHP-HTTP, please visit [php-http.org](http://docs.php-http.org/)
 
 #Installation
 
@@ -8,9 +13,10 @@ This package requires PHP 5.6+, and includes a Laravel 5 Service Provider and Fa
 
 To install through composer include the package in your `composer.json`.
 
-    "midnite81/prowl": "0.1.*"
+    "midnite81/prowl": "^1.0.0"
 
-Run `composer install` or `composer update` to download the dependencies or you can run `composer require midnite81/prowl`.
+Run `composer install` or `composer update` to download the dependencies or you can 
+run `composer require midnite81/prowl`.
 
 ##Laravel 5 Integration
 
@@ -31,7 +37,7 @@ Add the `Prowl` facade to your aliases array.
       
     ];
     
-Publish the config and migration files using 
+Publish the config files using 
 `php artisan vendor:publish --provider="Midnite81\Prowl\ProwlServiceProvider"`
 
 To access Prowl you can either use the Facade or the Messaging instance is bound to the IOC container and you can 

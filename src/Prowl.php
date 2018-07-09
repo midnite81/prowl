@@ -2,20 +2,18 @@
 
 namespace Midnite81\Prowl;
 
-use function GuzzleHttp\Psr7\str;
-use GuzzleHttp\Psr7\Request;
 use Http\Adapter\Guzzle6\Client;
-use Http\Client\HttpClient;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Http\Message\RequestFactory;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
+use Midnite81\Prowl\Contracts\Prowl as Contract;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
 
-class Prowl
+class Prowl implements Contract
 {
-    protected $apiUrl = 'https://api.prowlapp.com/publicapi';
+    protected $apiUrl;
 
     protected $httpClient;
 
@@ -38,21 +36,23 @@ class Prowl
     /**
      * Create a prowl instance
      *
+     * @param array $config
      * @return static
      */
-    public static function create()
+    public static function create($config = [])
     {
-        return new static(new Client(), new GuzzleMessageFactory());
+        return new static(new Client(), new GuzzleMessageFactory(), $config);
     }
 
     /**
      * @param                $httpClient
      * @param RequestFactory $requestFactory
+     * @param array          $config
      * @return static
      */
-    public static function createCustom($httpClient, RequestFactory $requestFactory)
+    public static function createCustom($httpClient, RequestFactory $requestFactory, $config = [])
     {
-        return new static($httpClient, $requestFactory);
+        return new static($httpClient, $requestFactory, $config);
     }
 
 
@@ -80,25 +80,29 @@ class Prowl
     /**
      * Create a message
      *
+     * @param array $attributes
+     * @param array $devices
      * @return Notification
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createMessage()
+    public function createMessage($attributes = [], $devices = [])
     {
-        return new Notification(func_get_args());
+        return new Notification($attributes, $devices);
     }
 
     /**
      * Alias of Create Message
      *
+     * @param array $attributes
+     * @param array $devices
      * @return Notification
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createNotification()
+    public function createNotification($attributes = [], $devices = [])
     {
-        return $this->createMessage(func_get_args());
+        return $this->createMessage($attributes, $devices);
     }
 
     /**

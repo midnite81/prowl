@@ -15,32 +15,41 @@ class Notification
     protected $notification = [];
 
     /**
+     * @var array
+     */
+    protected $devices = [];
+
+    /**
      * Notification constructor.
      *
      * @param array $attributes
+     * @param array $devices
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public function __construct($attributes = [])
+    public function __construct($attributes = [], $devices = [])
     {
         $this->addAttributes($attributes);
+        $this->devices = $devices;
     }
 
     /**
      * Factory Create Method
      *
-     * @param $apiKey
-     * @param $description
-     * @param $application
-     * @param $event
-     * @param $priority
-     * @param $url
-     * @param $providerKey
+     * @param       $apiKey
+     * @param       $description
+     * @param       $application
+     * @param       $event
+     * @param       $priority
+     * @param       $url
+     * @param       $providerKey
+     * @param array $devices
      * @return static
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public static function create($apiKey, $description, $application = null, $event = null, $priority = null, $url = null, $providerKey = null)
+    public static function create($apiKey, $description, $application = null, $event = null, $priority = null,
+                                  $url = null, $providerKey = null, $devices = [])
     {
         return new static([
             'apiKey' => $apiKey,
@@ -50,20 +59,21 @@ class Notification
             'application' => $application,
             'event' => $event,
             'description' => $description,
-        ]);
+        ], $devices);
     }
 
     /**
      * Factory Create From Array Method
      *
-     * @param $array
+     * @param       $attributes
+     * @param array $devices
      * @return static
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public static function createFromArray($array)
+    public static function createFromArray($attributes, $devices = [])
     {
-        return new static($array);
+        return new static($attributes, $devices);
     }
 
     /**
@@ -109,7 +119,7 @@ class Notification
     public function getApiKeys()
     {
         if (! empty($this->notification['apiKey'])) {
-            return implode(',', $this->notification['apiKey']);
+            return implode(',', $this->processApiKeys());
         }
         return null;
     }
@@ -368,5 +378,21 @@ class Notification
         if (! empty($attributes['description'])) {
             $this->setDescription($attributes['description']);
         }
+    }
+
+    /**
+     * Replace the 'device' names with API key values
+     */
+    protected function processApiKeys()
+    {
+        if (! empty($this->notification['apiKey'])) {
+            for($i = 0; $i < count($this->notification['apiKey']); $i++) {
+                if (array_key_exists($this->notification['apiKey'][$i], $this->devices)) {
+                    $this->notification['apiKey'][$i] = $this->devices[$this->notification['apiKey'][$i]];
+                }
+            }
+        }
+
+        return $this->notification['apiKey'];
     }
 }
