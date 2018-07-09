@@ -9,7 +9,6 @@ return [
     | This is the url which connects to the API.
     |
     */
-
     'apiUrl' => 'https://api.prowlapp.com/publicapi',
 
     /*

@@ -26,7 +26,7 @@ $newMessageObject->setApiKeys($myKey)
                  ->setApplication('The Application')
                  ->setMessage('The Message');
 
-// When you pass ->setPriority(0) you can use prefined constants as such;
+// When you pass ->setPriority(0) you can use predefined constants as such;
 $newMessageObject->setPriority(\Midnite81\Prowl\Services\Priority::HIGH);
 
 // Your new message object has been created and filled, you
