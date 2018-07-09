@@ -7,12 +7,6 @@ use Midnite81\Prowl\Exceptions\ValueTooLongException;
 
 class Notification
 {
-    const VERY_LOW = -2;
-    const MODERATE = -1;
-    const NORMAL = 0;
-    const HIGH = 1;
-    const EMERGENCY = 2;
-
     /**
      * Notification Attributes
      *
