@@ -21,25 +21,29 @@ class LaravelProwl extends Prowl
 
     /**
      * @param array $attributes
+     * @param array $devices
      * @return Notification
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createMessage($attributes = [])
+    public function createMessage($attributes = [], $devices = [])
     {
-        return parent::createMessage($attributes, config('prowl.keys'));
+        $devices = (empty($devices)) ? config('prowl.keys') : $devices;
+        return parent::createMessage($attributes, $devices);
     }
 
     /**
      * Alias of Create Message
      *
      * @param array $attributes
+     * @param array $devices
      * @return Notification
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createNotification($attributes = [])
+    public function createNotification($attributes = [], $devices = [])
     {
-        return parent::createNotification($attributes, config('prowl.keys'));
+        $devices = (empty($devices)) ? config('prowl.keys') : $devices;
+        return parent::createNotification($attributes, $devices);
     }
 }
