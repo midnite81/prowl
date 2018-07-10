@@ -3,6 +3,7 @@
 namespace Midnite81\Prowl;
 
 use Http\Message\RequestFactory;
+use Midnite81\Prowl\Services\LaravelNotification;
 use Midnite81\Prowl\Services\Notification;
 
 class LaravelProwl extends Prowl
@@ -30,7 +31,7 @@ class LaravelProwl extends Prowl
     public function createMessage($attributes = [], $devices = [])
     {
         $devices = (empty($devices)) ? config('prowl.keys') : $devices;
-        return parent::createMessage($attributes, $devices);
+        return new LaravelNotification($attributes, $devices);
     }
 
     /**
@@ -45,6 +46,6 @@ class LaravelProwl extends Prowl
     public function createNotification($attributes = [], $devices = [])
     {
         $devices = (empty($devices)) ? config('prowl.keys') : $devices;
-        return parent::createNotification($attributes, $devices);
+        return $this->createMessage($attributes, $devices);
     }
 }
