@@ -1,27 +1,38 @@
 {
     "name": "midnite81/prowl",
-    "description": "A Laravel integration of Prowl",
-    "keywords": ["php", "prowl", "laravel"],
+    "description": "A PHP wrapper for Prowl with a Laravel Integration",
+    "keywords": [
+        "php",
+        "prowl",
+        "laravel"
+    ],
     "type": "php",
     "license": "MIT",
     "authors": [
-      {
-          "name": "Simon Rogers",
-          "email": "webdev@centralblue.co.uk"
-      }
+        {
+            "name": "Simon Rogers",
+            "email": "webdev@centralblue.co.uk"
+        }
     ],
     "require": {
         "php": ">=5.5.9",
-        "xenji/ProwlPHP": "^1.0"
+        "php-http/guzzle6-adapter": "^1.1",
+        "php-http/client-implementation": "^1",
+        "php-http/message": "^1.5",
+        "php-http/discovery": "^1.2.1",
+        "nesbot/carbon": "^1.32",
+        "midnite81/xml2array": "^1.0"
     },
     "autoload": {
-      "psr-4": {
-        "Midnite81\\Prowl\\": "src/"
-      }
+        "psr-4": {
+            "Midnite81\\Prowl\\": "src/"
+        }
     },
     "extra": {
-      "component": "package",
-      "frameworks": ["Laravel 5"]
+        "component": "package",
+        "frameworks": [
+            "Laravel 5"
+        ]
     },
     "minimum-stability": "stable"
 }
