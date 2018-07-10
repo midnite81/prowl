@@ -137,7 +137,7 @@ class Notification implements Contract
     {
         $value = (is_string($value)) ? [$value] : $value;
 
-        if (! empty($this->getApiKeys())) {
+        if (! empty($this->notification['apiKey'])) {
             $this->notification['apiKey'] = array_merge($this->notification['apiKey'], $value);
         } else {
             $this->notification['apiKey'] = $value;
