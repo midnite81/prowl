@@ -2,6 +2,7 @@
 
 namespace Midnite81\Prowl;
 
+use Http\Message\RequestFactory;
 use Midnite81\Prowl\Services\Notification;
 
 class LaravelProwl extends Prowl
