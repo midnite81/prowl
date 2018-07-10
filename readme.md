@@ -13,7 +13,7 @@ To install through composer include the package in your `composer.json`.
 Run `composer install` or `composer update` to download the dependencies or you can 
 run `composer require midnite81/prowl`.
 
-# Http Standards
+## Http Standards
 
 To adhere to better standards, this package uses the popular and powerful PHP-HTTP library 
 to make HTTP requests. By default a Guzzle adapter is required when using `midnite81\prowl`.

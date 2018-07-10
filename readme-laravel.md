@@ -22,14 +22,14 @@ Add the `Prowl` facade to your aliases array.
 Publish the Prowl config file using 
 `php artisan vendor:publish --provider="Midnite81\Prowl\ProwlServiceProvider"`
     
-# Configuration File
+## Configuration File
 
 Once you have published the config files, you will find a `prowl.php` file in the `config` folder. You should 
 look through these settings and update these where necessary. 
 
 You shouldn't need to update the api url, but it's available in the configuration should you need to.
 
-# Methods 
+## Methods 
 
 There are four main methods on the Prowl class, which identify the main four api calls you can make. 
 
@@ -43,7 +43,7 @@ There are four main methods on the Prowl class, which identify the main four api
  To understand what each of these api calls does, you should check out the documentation at 
  [https://www.prowlapp.com/api.php](https://www.prowlapp.com/api.php)
 
-# Example Usage
+## Example Usage
 
 The laravel integration is not too dissimilar from the standard implementation but it takes care of all of the 
 configuration issues as those are stored in the `config/prowl.php` file. 
@@ -74,7 +74,7 @@ method any number of times you want and it will continue to add api keys to the 
 For your convenience, the add method has been aliased to include `send` and `push`; therefore you can just as easily 
 call `$prowl->push($msg);` or `$prowl->send($msg);`
 
-# Response 
+## Response 
 
 Unless there are any Exceptions thrown you will receive a `Response` object back. For more information on the response
 object please view [readme-response.md](readme-response.md) 
