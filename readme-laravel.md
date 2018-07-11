@@ -51,7 +51,7 @@ configuration issues as those are stored in the `config/prowl.php` file.
 You can use the Facade if you want to, but in the examples I provide I'll inject them as it's a little more efficient 
 to do it that way.
 
-
+```php
 <?php 
 class MyClass
 {
@@ -84,6 +84,7 @@ class MyClass
          $pushNotification = $prowl->add($msg);   
    }
 }
+```
 
 The `setApiKeys` method can take either an array of api keys (or config'ed aliases) or a single string. You can call the
 method any number of times you want and it will continue to add api keys to the `Notification` object.
