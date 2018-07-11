@@ -31,7 +31,7 @@ class LaravelProwl extends Prowl
     public function createMessage($attributes = [], $devices = [])
     {
         $devices = (empty($devices)) ? config('prowl.keys') : $devices;
-        return new LaravelNotification($attributes, $devices);
+        return new LaravelNotification($attributes, $devices, $this);
     }
 
     /**
@@ -46,6 +46,6 @@ class LaravelProwl extends Prowl
     public function createNotification($attributes = [], $devices = [])
     {
         $devices = (empty($devices)) ? config('prowl.keys') : $devices;
-        return $this->createMessage($attributes, $devices);
+        return $this->createMessage($attributes, $devices, $this);
     }
 }

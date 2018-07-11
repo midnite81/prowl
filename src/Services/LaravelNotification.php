@@ -11,13 +11,14 @@ class LaravelNotification extends Notification implements Contract
      *
      * @param array $attributes
      * @param array $devices
+     * @param null  $prowl
      * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
      * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
      */
-    public function __construct(array $attributes = [], array $devices = [])
+    public function __construct(array $attributes = [], array $devices = [], $prowl = null)
     {
         $devices = (empty($devices)) ? config('prowl.keys', []) : $devices;
-        parent::__construct($attributes, $devices);
+        parent::__construct($attributes, $devices, $prowl);
     }
 
     /**
