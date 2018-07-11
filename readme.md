@@ -58,7 +58,8 @@ There are four main methods on the Prowl class, which identify the main four api
  
  In order to send a notification to a prowl linked device, you will need to create a `Notification` object. There are a 
  couple of ways in which to do this. You can either call instantiate a new `Notification` object or you can call it 
- from the Prowl object. There are a couple of factory methods on the `Notification` object should you rather use those.
+ from the Prowl object. If you call it from the Prowl object the prowl object will be sent to it so you can call the 
+ send method via chaining. There are a couple of factory methods on the `Notification` object should you rather use those.
  
  ```php 
  <?php
@@ -66,8 +67,18 @@ There are four main methods on the Prowl class, which identify the main four api
  $notification = new Notification(); 
  // or 
  $notification = $prowl->createNotification(); 
- ```
  
+ // Using this method you can chain through to send the message directly.
+ $prowl = new Prowl($config); 
+ $prowl->createMessage()
+     ->setApiKeys($apiKey)
+     ->setDescription('This is the description')
+     ->setEvent('This is the event')
+     ->setPriority(\Midnite81\Prowl\Services\Priority::NORMAL)
+     ->setMessage('This is the message')
+     ->setApplication('Application')
+     ->send();
+ ```
  
 Once the `notification` object is created you can call methods to add to the Object. For example; 
 

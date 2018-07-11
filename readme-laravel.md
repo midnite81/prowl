@@ -51,11 +51,28 @@ configuration issues as those are stored in the `config/prowl.php` file.
 You can use the Facade if you want to, but in the examples I provide I'll inject them as it's a little more efficient 
 to do it that way.
 
-```php
+
 <?php 
 class MyClass
 {
-    public function(Midnite81\Prowl\Contracts\Prowl $prowl) { 
+    /**
+     * Option one - send through notification method
+     */
+    public function optionOne(Midnite81\Prowl\Contracts\Prowl $prowl) { 
+         $msg = $prowl->createMessage()
+                     ->setApiKeys('iphone') // as defined in the 'keys' section of the prowl config
+                     ->setPriority(Priority::HIGH) // or you can specify a number between -2 to 2
+                     ->setEvent('The Event')
+                     ->setDescription('The Description')
+                     ->setApplication('The Application')
+                     ->setMessage('The Message')
+                     ->send();
+   }
+    
+    /**
+     * Option two create the message and then send through prowl
+     */
+    public function optionTwo(Midnite81\Prowl\Contracts\Prowl $prowl) { 
          $msg = $prowl->createMessage();
          $msg->setApiKeys('iphone') // as defined in the 'keys' section of the prowl config
              ->setPriority(Priority::HIGH) // or you can specify a number between -2 to 2
@@ -67,7 +84,7 @@ class MyClass
          $pushNotification = $prowl->add($msg);   
    }
 }
-```
+
 The `setApiKeys` method can take either an array of api keys (or config'ed aliases) or a single string. You can call the
 method any number of times you want and it will continue to add api keys to the `Notification` object.
 
