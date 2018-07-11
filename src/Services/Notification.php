@@ -4,7 +4,9 @@ namespace Midnite81\Prowl\Services;
 
 use Midnite81\Prowl\Contracts\Services\Notification as Contract;
 use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ProwlNotAvailableException;
 use Midnite81\Prowl\Exceptions\ValueTooLongException;
+use Midnite81\Prowl\Prowl;
 
 class Notification implements Contract
 {
@@ -25,13 +27,15 @@ class Notification implements Contract
      *
      * @param array $attributes
      * @param array $devices
+     * @param null  $prowl
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public function __construct($attributes = [], $devices = [])
+    public function __construct($attributes = [], $devices = [], $prowl = null)
     {
         $this->addAttributes($attributes);
         $this->devices = $devices;
+        $this->prowl = $prowl;
     }
 
     /**
@@ -60,7 +64,7 @@ class Notification implements Contract
             'application' => $application,
             'event' => $event,
             'description' => $description,
-        ], $devices);
+        ], $devices, null);
     }
 
     /**
@@ -72,9 +76,9 @@ class Notification implements Contract
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public static function createFromArray($attributes, $devices = [])
+    public static function createFromArray($attributes = [], $devices = [])
     {
-        return new static($attributes, $devices);
+        return new static($attributes, $devices, null);
     }
 
     /**
@@ -340,6 +344,45 @@ class Notification implements Contract
     public function setMessage($value)
     {
         return $this->setDescription($value);
+    }
+
+    /**
+     * Sends the message to the prowl add method
+     *
+     * @return Response
+     * @throws ProwlNotAvailableException
+     * @throws \Http\Client\Exception
+     */
+    public function send()
+    {
+        if ($this->prowl instanceof Prowl) {
+            return $this->prowl->add($this);
+        }
+        throw new ProwlNotAvailableException('Prowl was not attached to the class on construction');
+    }
+
+    /**
+     * Alias of send
+     *
+     * @return Response
+     * @throws ProwlNotAvailableException
+     * @throws \Http\Client\Exception
+     */
+    public function add()
+    {
+        return $this->send();
+    }
+
+    /**
+     * Alias of send
+     *
+     * @return Response
+     * @throws ProwlNotAvailableException
+     * @throws \Http\Client\Exception
+     */
+    public function push()
+    {
+        return $this->send();
     }
 
     /**

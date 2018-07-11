@@ -88,7 +88,7 @@ class Prowl implements Contract
      */
     public function createMessage($attributes = [], $devices = [])
     {
-        return new Notification($attributes, $devices);
+        return new Notification($attributes, $devices, $this);
     }
 
     /**
