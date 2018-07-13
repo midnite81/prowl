@@ -202,7 +202,7 @@ class Notification implements Contract
      */
     public function setPriority($value)
     {
-        if (! is_numeric($value) && ($value < -2 || $value > 2)) {
+        if (! is_numeric($value) || ($value < -2 || $value > 2)) {
             throw new IncorrectPriorityValueException('You have provided an incorrect priority value');
         }
 
