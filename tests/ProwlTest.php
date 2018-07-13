@@ -58,6 +58,18 @@ class ProwlTest extends TestCase
     /**
      * @test
      */
+    public function it_creates_message_alias_object()
+    {
+        $prowl = Prowl::create();
+
+        $message = $prowl->createNotification();
+
+        $this->assertInstanceOf(Notification::class, $message);
+    }
+
+    /**
+     * @test
+     */
     public function it_adds_notification_and_returns_response_object()
     {
         $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
@@ -68,6 +80,50 @@ class ProwlTest extends TestCase
 
         $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
         $prowlResponse = $prowl->add($notification);
+
+        $this->assertInstanceOf(Response::class, $prowlResponse);
+        $this->assertEquals(true, $prowlResponse->isSuccess());
+        $this->assertEquals(200, $prowlResponse->getStatusCode());
+        $this->assertEquals(998, $prowlResponse->getRemaining());
+        $this->assertInstanceOf(Carbon::class, $prowlResponse->getResetDate());
+
+    }
+
+    /**
+     * @test
+     */
+    public function it_send_notification_and_returns_response_object()
+    {
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+
+        $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
+
+        $notification = Notification::create('test', 'test', 'test', 'test', 0, 'test');
+
+        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowlResponse = $prowl->send($notification);
+
+        $this->assertInstanceOf(Response::class, $prowlResponse);
+        $this->assertEquals(true, $prowlResponse->isSuccess());
+        $this->assertEquals(200, $prowlResponse->getStatusCode());
+        $this->assertEquals(998, $prowlResponse->getRemaining());
+        $this->assertInstanceOf(Carbon::class, $prowlResponse->getResetDate());
+
+    }
+
+    /**
+     * @test
+     */
+    public function it_push_notification_and_returns_response_object()
+    {
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+
+        $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
+
+        $notification = Notification::create('test', 'test', 'test', 'test', 0, 'test');
+
+        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowlResponse = $prowl->push($notification);
 
         $this->assertInstanceOf(Response::class, $prowlResponse);
         $this->assertEquals(true, $prowlResponse->isSuccess());
