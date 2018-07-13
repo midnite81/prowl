@@ -10,6 +10,13 @@ class LaravelNotificationTest extends NotificationTest
     {
         include_once __DIR__ . '/../Functions.php';
     }
+    
+    public function it_gets_the_api_key()
+    {
+        $notification = $this->factoryCreateFromArray();
+
+        $this->assertInternalType('array', $this->getApiKeys);
+    }
 
     /**
      * @return LaravelNotification
