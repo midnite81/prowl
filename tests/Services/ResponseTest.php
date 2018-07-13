@@ -19,6 +19,11 @@ class ResponseTest extends TestCase
 
     protected $failedResponse;
 
+    protected $retrieveApiKeyResponse;
+
+    protected $retrieveTokenResponse;
+
+
     /**
      * @test
      */
@@ -97,6 +102,27 @@ class ResponseTest extends TestCase
 
         $this->assertEquals(404, $response->getErrorCode());
         $this->assertEquals('Some message', $response->getErrorMessage());
+        $this->assertEquals(true, $response->isError());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_retrieve_key()
+    {
+        $response = $this->retrieveApiKeyResponse;
+
+        $this->assertEquals('APIKEY', $response->getRetrieveApiKey());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_token()
+    {
+        $response = $this->retrieveTokenResponse;
+
+        $this->assertEquals('TOKEN', $response->getToken());
     }
 
 
@@ -122,8 +148,29 @@ body;
 
         $this->failureResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $failureMessage, '1.1', null);
 
+        $retrieveApiKeyObject = <<<body
+<?xml version="1.0" encoding="UTF-8"?><prowl>
+    <success code="200" remaining="REMAINING" resetdate="1531016789"
+    />
+    <retrieve apikey="APIKEY" />
+</prowl>
+body;
+
+        $retrieveApiKeyResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $retrieveApiKeyObject, '1.1', null);
+
+        $retrieveTokenObject = <<<body
+<?xml version="1.0" encoding="UTF-8"?><prowl>
+    <success code="200" remaining="REMAINING" resetdate="1531016789"
+    />
+    <retrieve token="TOKEN" url="URL" />
+</prowl>
+body;
+        $retrieveTokenResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $retrieveTokenObject, '1.1', null);
+
         $this->response = new Response($this->successResponseObject);
         $this->failedResponse = new Response($this->failureResponseObject);
+        $this->retrieveApiKeyResponse = new Response($retrieveApiKeyResponseObject);
+        $this->retrieveTokenResponse = new Response($retrieveTokenResponseObject);
     }
 
 

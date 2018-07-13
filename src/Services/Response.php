@@ -164,11 +164,21 @@ class Response
         return $this->get('retrieveToken');
     }
 
+    /**
+     * Is success response
+     *
+     * @return null
+     */
     public function isSuccess()
     {
         return $this->get('isSuccess');
     }
 
+    /**
+     * Is error response
+     *
+     * @return null
+     */
     public function isError()
     {
         return $this->get('isError');
