@@ -17,6 +17,8 @@ class ResponseTest extends TestCase
 
     protected $response;
 
+    protected $failedResponse;
+
     /**
      * @test
      */
@@ -86,6 +88,17 @@ class ResponseTest extends TestCase
         $this->assertInstanceOf(XmlResponse::class, $response);
     }
 
+    /**
+     * @test
+     */
+    public function it_returns_error_codes()
+    {
+        $response = $this->failedResponse;
+
+        $this->assertEquals(404, $response->getErrorCode());
+        $this->assertEquals('Some message', $response->getErrorMessage());
+    }
+
 
     /**
      * @throws \Exception
@@ -110,6 +123,7 @@ body;
         $this->failureResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $failureMessage, '1.1', null);
 
         $this->response = new Response($this->successResponseObject);
+        $this->failedResponse = new Response($this->failureResponseObject);
     }
 
 
