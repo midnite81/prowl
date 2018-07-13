@@ -29,13 +29,15 @@ class LaravelNotificationTest extends NotificationTest
     }
 
     /**
+     * @param array $attributes
+     * @param array $devices
      * @return LaravelNotification
      * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
      * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
      */
-    protected function factoryCreateFromArray()
+    protected function factoryCreateFromArray($attributes = [], $devices = [])
     {
-        return LaravelNotification::createFromArray();
+        return LaravelNotification::createFromArray($attributes, $devices);
     }
 
     /**
@@ -45,8 +47,8 @@ class LaravelNotificationTest extends NotificationTest
      */
     protected function factoryCreate()
     {
-        return LaravelNotification::create('test', 'test', 'test', 'test',
-            0, 'test', 'test');
+        return LaravelNotification::create('testApi', 'testDescription', 'testApplication',
+            'testEvent',1, 'testUrl', 'testProviderKey');
     }
 
 }

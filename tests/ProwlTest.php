@@ -3,13 +3,17 @@ namespace Midnite81\Prowl\Tests;
 
 use Carbon\Carbon;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
 use Midnite81\Prowl\Prowl;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
+use Midnite81\Prowl\Tests\Traits\GenerateStrings;
 use PHPUnit\Framework\TestCase;
 
 class ProwlTest extends TestCase
 {
+    use GenerateStrings;
+
     /**
      * @test
      */
@@ -53,6 +57,61 @@ class ProwlTest extends TestCase
         $message = $prowl->createMessage();
 
         $this->assertInstanceOf(Notification::class, $message);
+    }
+
+    /**
+     * @test
+     * @expectedException \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
+     */
+    public function it_throws_exception_for_incorrect_priority_range()
+    {
+        /** @var Prowl $prowl */
+        $prowl = $this->factoryCreate();
+        $prowl->createMessage()->setPriority(6);
+    }
+
+     /**
+      * @test
+      * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+      */
+     public function it_throws_exception_for_too_long_url()
+     {
+         /** @var Prowl $prowl */
+         $prowl = $this->factoryCreate();
+         $prowl->createMessage()->setUrl($this->stringLength(513));
+     }
+
+    /**
+     * @test
+     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+     */
+    public function it_throws_exception_for_too_long_application()
+    {
+        /** @var Prowl $prowl */
+        $prowl = $this->factoryCreate();
+        $prowl->createMessage()->setApplication($this->stringLength(260));
+    }
+
+    /**
+     * @test
+     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+     */
+    public function it_throws_exception_for_too_long_event()
+    {
+        /** @var Prowl $prowl */
+        $prowl = $this->factoryCreate();
+        $prowl->createMessage()->setEvent($this->stringLength(1030));
+    }
+
+    /**
+     * @test
+     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+     */
+    public function it_throws_exception_for_too_long_description()
+    {
+        /** @var Prowl $prowl */
+        $prowl = $this->factoryCreate();
+        $prowl->createMessage()->setDescription($this->stringLength(100100));
     }
 
     /**
