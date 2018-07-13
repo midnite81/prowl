@@ -29,6 +29,7 @@ class ProwlServiceProvider extends ServiceProvider
      * Register the service provider.
      *
      * @return void
+     * @codeCoverageIgnore
      */
     public function register()
     {
@@ -44,6 +45,7 @@ class ProwlServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      *
      * @return array
+     * @codeCoverageIgnore
      */
     public function provides()
     {
