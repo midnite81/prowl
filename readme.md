@@ -8,7 +8,7 @@ Please note, you do not need to have laravel installed to use this package.
 
 To install through composer include the package in your `composer.json`.
 
-    "midnite81/prowl": "^1.0.0"
+    "midnite81/prowl": "^2.0.0"
 
 Run `composer install` or `composer update` to download the dependencies or you can 
 run `composer require midnite81/prowl`.
