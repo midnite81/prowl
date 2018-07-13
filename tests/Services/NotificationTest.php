@@ -12,7 +12,7 @@ class NotificationTest extends TestCase
      */
     public function it_constructs()
     {
-        $notification = new Notification([], [], null);
+        $notification = $this->instantiateNotification();
 
         $this->assertInstanceOf(Notification::class, $notification);
     }
@@ -22,7 +22,7 @@ class NotificationTest extends TestCase
      */
     public function it_constructs_using_factory_create_from_array()
     {
-        $notification = Notification::createFromArray();
+        $notification = $this->factoryCreateFromArray();
 
         $this->assertInstanceOf(Notification::class, $notification);
     }
@@ -32,9 +32,39 @@ class NotificationTest extends TestCase
      */
     public function it_constructs_using_create_factory_method()
     {
-        $notification = Notification::create('test', 'test', 'test', 'test',
-                                            0, 'test', 'test');
+        $notification = $this->factoryCreate();
 
         $this->assertInstanceOf(Notification::class, $notification);
+    }
+
+    /**
+     * @return Notification
+     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
+     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     */
+    protected function instantiateNotification()
+    {
+        return new Notification([], [], null);
+    }
+
+    /**
+     * @return static
+     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
+     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     */
+    protected function factoryCreateFromArray()
+    {
+        return Notification::createFromArray();
+    }
+
+    /**
+     * @return static
+     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
+     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     */
+    protected function factoryCreate()
+    {
+        return Notification::create('test', 'test', 'test', 'test',
+            0, 'test', 'test');
     }
 }

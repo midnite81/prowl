@@ -52,7 +52,7 @@ class LaravelNotification extends Notification implements Contract
      * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
      * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
      */
-    public static function createFromArray($attributes, $devices = [])
+    public static function createFromArray($attributes = [], $devices = [])
     {
         $devices = (empty($devices)) ? config('prowl.keys', []) : $devices;
         return parent::createFromArray($attributes, $devices);

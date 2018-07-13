@@ -15,7 +15,7 @@ class ProwlTest extends TestCase
      */
     public function it_constructs_without_parameters()
     {
-        $prowl = new Prowl();
+        $prowl = $this->instantiateProwl();
 
         $this->assertInstanceOf(Prowl::class, $prowl);
     }
@@ -25,7 +25,7 @@ class ProwlTest extends TestCase
      */
     public function it_constructs_using_factory_method()
     {
-        $prowl = Prowl::create();
+        $prowl = $this->factoryCreate();
 
         $this->assertInstanceOf(Prowl::class, $prowl);
     }
@@ -38,7 +38,7 @@ class ProwlTest extends TestCase
         $httpClient = new \Http\Adapter\Guzzle6\Client();
         $requestFactory = new GuzzleMessageFactory();
 
-        $prowl = Prowl::createCustom($httpClient, $requestFactory);
+        $prowl = $this->factoryCreateCustom($httpClient, $requestFactory);
 
         $this->assertInstanceOf(Prowl::class, $prowl);
     }
@@ -48,7 +48,7 @@ class ProwlTest extends TestCase
      */
     public function it_creates_message_object()
     {
-        $prowl = Prowl::create();
+        $prowl = $this->factoryCreate();
 
         $message = $prowl->createMessage();
 
@@ -60,7 +60,7 @@ class ProwlTest extends TestCase
      */
     public function it_creates_message_alias_object()
     {
-        $prowl = Prowl::create();
+        $prowl = $this->factoryCreate();
 
         $message = $prowl->createNotification();
 
@@ -204,5 +204,31 @@ class ProwlTest extends TestCase
 EOF;
 
         return new \GuzzleHttp\Psr7\Response(200, [], $body, '1.1', null);
+    }
+
+    /**
+     * @return Prowl
+     */
+    protected function instantiateProwl()
+    {
+        return new Prowl();
+    }
+
+    /**
+     * @return static
+     */
+    protected function factoryCreate()
+    {
+        return Prowl::create();
+    }
+
+    /**
+     * @param $httpClient
+     * @param $requestFactory
+     * @return static
+     */
+    protected function factoryCreateCustom($httpClient, $requestFactory)
+    {
+        return Prowl::createCustom($httpClient, $requestFactory);
     }
 }
