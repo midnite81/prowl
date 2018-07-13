@@ -15,7 +15,7 @@ class LaravelNotificationTest extends NotificationTest
     {
         $notification = $this->factoryCreateFromArray();
 
-        $this->assertInternalType('array', $this->getApiKeys);
+        $this->assertInternalType('array', $notification->getApiKeys());
     }
 
     /**
