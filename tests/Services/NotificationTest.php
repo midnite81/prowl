@@ -121,6 +121,39 @@ class NotificationTest extends TestCase
     /**
      * @test
      */
+    public function it_sets_message_to_class()
+    {
+        $notification = $this->factoryCreateFromArray();
+
+        $notification->setMessage('Test Message');
+
+        $this->assertEquals('Test Message', $notification->getMessage());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_if_no_api_key_is_set()
+    {
+        $notification = $this->factoryCreateFromArray();
+
+        $this->assertNull($notification->getApiKeys());
+    }
+
+     /**
+      * @test
+      * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+      */
+     public function it_throws_exception_when_the_provider_key_is_too_long()
+     {
+         $notification = $this->factoryCreateFromArray();
+
+         $notification->setProviderKey($this->stringLength(41));
+     }
+
+    /**
+     * @test
+     */
     public function it_returns_to_json()
     {
         $notification = $this->factoryCreate();

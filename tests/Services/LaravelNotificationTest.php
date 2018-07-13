@@ -29,6 +29,15 @@ class LaravelNotificationTest extends NotificationTest
     }
 
     /**
+     * Overrides the method which is only needed on the base test
+     * since Laravel will auto inject the key
+     */
+    public function it_returns_null_if_no_api_key_is_set()
+    {
+
+    }
+
+    /**
      * @return LaravelNotification
      * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
      * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
