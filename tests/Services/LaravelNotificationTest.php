@@ -18,6 +18,15 @@ class LaravelNotificationTest extends NotificationTest
         $this->assertInternalType('array', $notification->getApiKeys());
     }
 
+    /**
+     * @test
+     */
+    public function it_uses_default_device_if_not_specified()
+    {
+        $notification = $this->factoryCreateFromArray();
+
+        $this->assertContains(config('prowl')['keys'][config('prowl')['defaultKey']], $notification->getApiKeys());
+    }
 
     /**
      * @return LaravelNotification

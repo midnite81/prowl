@@ -66,6 +66,7 @@ class LaravelNotification extends Notification implements Contract
      */
     public function getApiKeys()
     {
+
         if (empty($this->notification['apiKey'])) {
             $this->setApiKeys(config('prowl.defaultKey'));
         }

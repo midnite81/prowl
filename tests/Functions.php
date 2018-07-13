@@ -17,10 +17,13 @@ if ( ! function_exists('config')) {
                 ],
             ];
         }
+        if ($key == 'prowl.defaultKey') {
+            return 'iphone';
+        }
         if ($key == 'prowl.keys') {
             return [
-                'iphone' => 'test',
-                'ipad' => 'test',
+                'iphone' => '<iphone_api_key>',
+                'ipad' => '<ipad_api_key>'
             ];
         }
         return [];
