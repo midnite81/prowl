@@ -104,6 +104,44 @@ class NotificationTest extends TestCase
     /**
      * @test
      */
+    public function it_returns_to_json()
+    {
+        $notification = $this->factoryCreate();
+
+        $this->assertJson($notification->toJson());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_an_array()
+    {
+        $notification = $this->factoryCreate();
+
+        $this->assertInternalType('array', $notification->formParams());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_set_properties_in_array()
+    {
+        $notification = $this->factoryCreate();
+        $notificationArray = $notification->formParams();
+
+        $this->assertInternalType('string', $notificationArray['apikey']);
+        $this->assertContains('testApi', $notificationArray['apikey']);
+        $this->assertEquals('testProviderKey', $notificationArray['providerkey']);
+        $this->assertEquals(1, $notificationArray['priority']);
+        $this->assertEquals('testUrl', $notificationArray['url']);
+        $this->assertEquals('testApplication', $notificationArray['application']);
+        $this->assertEquals('testEvent', $notificationArray['event']);
+        $this->assertEquals('testDescription', $notificationArray['description']);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_retrieve_devices_api_key()
     {
         /** @var Notification $notification */
