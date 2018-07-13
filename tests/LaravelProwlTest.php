@@ -19,6 +19,30 @@ class LaravelProwlTest extends ProwlTest
     }
 
     /**
+     * @test
+     */
+    public function it_sends_message_when_created_through_prowl()
+    {
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+
+        $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
+
+        $prowl = $this->factoryCreateCustom($mockedHttpClient, new GuzzleMessageFactory());
+
+        $send = $prowl->createMessage([
+            'apiKey' => ['some-value'],
+            'providerKey' => 'some-value',
+            'priority' => 1,
+            'url' => 'some-value',
+            'application' => 'some-value',
+            'event' => 'some-value',
+            'description' => 'some-value',
+        ])->add();
+
+        $this->assertInstanceOf(\Midnite81\Prowl\Services\Response::class, $send);
+    }
+
+    /**
      * @return Prowl
      */
     protected function instantiateProwl()

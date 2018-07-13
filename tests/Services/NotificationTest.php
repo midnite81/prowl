@@ -104,6 +104,23 @@ class NotificationTest extends TestCase
     /**
      * @test
      */
+    public function it_can_add_more_than_one_key_to_the_class()
+    {
+        $notification = $this->factoryCreate();
+
+        $this->assertCount(1, explode(',', $notification->getApiKeys()));
+        $this->assertContains('testApi', $notification->getApiKeys());
+
+        $notification->setApiKeys('test123');
+
+        $this->assertCount(2, explode(',', $notification->getApiKeys()));
+        $this->assertContains('testApi', $notification->getApiKeys());
+        $this->assertContains('test123', $notification->getApiKeys());
+    }
+
+    /**
+     * @test
+     */
     public function it_returns_to_json()
     {
         $notification = $this->factoryCreate();
@@ -166,6 +183,39 @@ class NotificationTest extends TestCase
         $notification = $this->factoryCreate();
 
         $this->assertInstanceOf(Notification::class, $notification);
+    }
+
+     /**
+      * @test
+      * @expectedException \Midnite81\Prowl\Exceptions\ProwlNotAvailableException
+      */
+     public function it_throws_an_exception_when_sending_without_prowl()
+     {
+        $notification = $this->factoryCreate();
+
+        $notification->add();
+     }
+
+    /**
+     * @test
+     * @expectedException \Midnite81\Prowl\Exceptions\ProwlNotAvailableException
+     */
+    public function it_throws_an_exception_when_sending_without_prowl_send_alias()
+    {
+        $notification = $this->factoryCreate();
+
+        $notification->send();
+    }
+
+    /**
+     * @test
+     * @expectedException \Midnite81\Prowl\Exceptions\ProwlNotAvailableException
+     */
+    public function it_throws_an_exception_when_sending_without_prowl_push_alias()
+    {
+        $notification = $this->factoryCreate();
+
+        $notification->push();
     }
 
     /**
