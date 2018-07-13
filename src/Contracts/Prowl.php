@@ -50,7 +50,7 @@ interface Prowl
      * @return Response
      * @throws \Http\Client\Exception
      */
-    public function verify($apiKey, $providerKey);
+    public function verify($apiKey, $providerKey = null);
 
     /**
      * Retrieve Token [GET]

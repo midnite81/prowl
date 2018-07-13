@@ -117,18 +117,11 @@ class Response
     /**
      * Get the reset date for the API limit
      *
-     * @param bool $carbon
      * @return Carbon|null
      */
-    public function getResetDate($carbon = true)
+    public function getResetDate()
     {
-        $resetDate = $this->get('resetDate');
-
-        if ($carbon && $resetDate) {
-            return Carbon::createFromTimestamp($resetDate);
-        }
-
-        return $resetDate;
+        return $this->get('resetDate');
     }
 
     /**

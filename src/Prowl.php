@@ -142,7 +142,7 @@ class Prowl implements Contract
      * @return Response
      * @throws \Http\Client\Exception
      */
-    public function verify($apiKey, $providerKey)
+    public function verify($apiKey, $providerKey = null)
     {
         $request = $this->requestFactory->createRequest('GET',
             $this->makeUrl('verify', [
