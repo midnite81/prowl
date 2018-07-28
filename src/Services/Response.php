@@ -234,4 +234,14 @@ class Response
     {
         return ! empty($this->attributes[$key]) ? $this->attributes[$key] : null;
     }
+
+    /**
+     * To String
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode($this->attributes);
+    }
 }
