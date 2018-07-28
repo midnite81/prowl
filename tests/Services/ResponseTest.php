@@ -35,6 +35,28 @@ class ResponseTest extends TestCase
     /**
      * @test
      */
+    public function it_returns_json_when_hitting_the_to_string_method()
+    {
+        $response = $this->response . '';
+        $responseArray = json_decode($response, true);
+
+        $this->assertInternalType('string', $response);
+        $this->assertJson($response);
+
+        $this->assertArrayHasKey('isSuccess', $responseArray);
+        $this->assertArrayHasKey('isError', $responseArray);
+        $this->assertArrayHasKey('statusCode', $responseArray);
+        $this->assertArrayHasKey('remaining', $responseArray);
+        $this->assertArrayHasKey('resetDate', $responseArray);
+        $this->assertArrayHasKey('errorCode', $responseArray);
+        $this->assertArrayHasKey('errorMessage', $responseArray);
+        $this->assertArrayHasKey('retrieveApiKey', $responseArray);
+        $this->assertArrayHasKey('retrieveToken', $responseArray);
+    }
+
+    /**
+     * @test
+     */
     public function it_returns_an_array()
     {
         $array = $this->response->toArray();
