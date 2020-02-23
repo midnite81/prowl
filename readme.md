@@ -24,8 +24,8 @@ information on PHP-HTTP, please visit [php-http.org](http://docs.php-http.org/)
 |Version|Description|
 |---|---|
 |v3.*|Support added to use Carbon 1 or 2 as a dependency|
-|v2.*|Completely rewritten from the ground up|
-|v1.*|Unsupported - Relied on other prowl packages |
+|v2.*|Completely rewritten from the ground up, with no additional prowl dependencies|
+|v1.*|Unsupported - Relied on other prowl packages|
 
 ## Laravel 5 Integration
 
