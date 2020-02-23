@@ -20,6 +20,13 @@ to make HTTP requests. By default a Guzzle adapter is required when using `midni
 This allows you, should you wish, to use your own HTTP Client instead of Guzzle. For more 
 information on PHP-HTTP, please visit [php-http.org](http://docs.php-http.org/)
 
+## Versioning
+|Version|Description|
+|---|---|
+|v3.*|Support added to use Carbon 1 or 2 as a dependency|
+|v2.*|Completely rewritten from the ground up|
+|v1.*|Unsupported - Relied on other prowl packages |
+
 ## Laravel 5 Integration
 
 If you wish to use this package with Laravel, please visit the [laravel specific readme](readme-laravel.md). 
