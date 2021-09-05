@@ -1,7 +1,7 @@
 <?php
 namespace Midnite81\Prowl;
 
-use Http\Adapter\Guzzle6\Client;
+use Http\Adapter\Guzzle7\Client;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Illuminate\Support\ServiceProvider;
 use Midnite81\Prowl\Contracts\Prowl as ProwlContract;

@@ -3,7 +3,7 @@
 namespace Midnite81\Prowl;
 
 use Exception;
-use Http\Adapter\Guzzle6\Client;
+use Http\Adapter\Guzzle7\Client;
 use Http\Client\Exception as HttpClientException;
 use Http\Client\HttpClient;
 use Http\Message\MessageFactory;
@@ -19,7 +19,7 @@ class Prowl implements Contract
 {
     protected string $apiUrl;
 
-    protected HttpClient $httpClient;
+    protected $httpClient;
 
     protected RequestFactory|MessageFactory $requestFactory;
 

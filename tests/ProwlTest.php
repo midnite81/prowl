@@ -3,7 +3,7 @@
 namespace Midnite81\Prowl\Tests;
 
 use Carbon\Carbon;
-use Http\Adapter\Guzzle6\Client;
+use Http\Adapter\Guzzle7\Client;
 use Http\Client\Exception as HttpClientException;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
@@ -151,7 +151,8 @@ class ProwlTest extends TestCase
      */
     public function it_adds_notification_and_returns_response_object(): void
     {
-        $mockedHttpClient = Mockery::mock(Client::class);
+        $client = new Client();
+        $mockedHttpClient = Mockery::mock($client);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -175,7 +176,8 @@ class ProwlTest extends TestCase
      */
     public function it_send_notification_and_returns_response_object(): void
     {
-        $mockedHttpClient = Mockery::mock(Client::class);
+        $client = new Client();
+        $mockedHttpClient = Mockery::mock($client);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -199,7 +201,8 @@ class ProwlTest extends TestCase
      */
     public function it_push_notification_and_returns_response_object(): void
     {
-        $mockedHttpClient = Mockery::mock(Client::class);
+        $client = new Client();
+        $mockedHttpClient = Mockery::mock($client);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -222,7 +225,8 @@ class ProwlTest extends TestCase
      */
     public function it_verifies_and_returns_response_object(): void
     {
-        $mockedHttpClient = Mockery::mock(Client::class);
+        $client = new Client();
+        $mockedHttpClient = Mockery::mock($client);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -242,7 +246,8 @@ class ProwlTest extends TestCase
      */
     public function it_retrieves_token_and_returns_response_object(): void
     {
-        $mockedHttpClient = Mockery::mock(Client::class);
+        $client = new Client();
+        $mockedHttpClient = Mockery::mock($client);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -262,7 +267,8 @@ class ProwlTest extends TestCase
      */
     public function it_retrieves_api_key_and_returns_response_object(): void
     {
-        $mockedHttpClient = Mockery::mock(Client::class);
+        $client = new Client();
+        $mockedHttpClient = Mockery::mock($client);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 

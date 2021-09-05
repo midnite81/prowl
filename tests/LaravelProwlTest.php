@@ -2,9 +2,15 @@
 
 namespace Midnite81\Prowl\Tests;
 
+use Exception;
+use Http\Adapter\Guzzle7\Client;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ProwlNotAvailableException;
+use Midnite81\Prowl\Exceptions\ValueTooLongException;
 use Midnite81\Prowl\LaravelProwl;
 use Midnite81\Prowl\Prowl;
+use Midnite81\Prowl\Services\Response;
 
 class LaravelProwlTest extends ProwlTest
 {
@@ -17,10 +23,16 @@ class LaravelProwlTest extends ProwlTest
 
     /**
      * @test
+     * @throws Exception
+     * @throws IncorrectPriorityValueException
+     * @throws ProwlNotAvailableException
+     * @throws ValueTooLongException
+     * @throws \Http\Client\Exception
      */
     public function it_sends_message_when_created_through_prowl()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $client = new Client();
+        $mockedHttpClient = \Mockery::mock($client);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -36,7 +48,7 @@ class LaravelProwlTest extends ProwlTest
             'description' => 'some-value',
         ])->add();
 
-        $this->assertInstanceOf(\Midnite81\Prowl\Services\Response::class, $send);
+        $this->assertInstanceOf(Response::class, $send);
     }
 
     /**
