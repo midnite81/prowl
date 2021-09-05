@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=8.0",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/client-implementation": "^1",
         "php-http/message": "^1.5",
@@ -24,7 +24,7 @@
         "midnite81/xml2array": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6|^7",
+        "phpunit/phpunit": "^9.0",
         "mockery/mockery": "^1.1",
         "satooshi/php-coveralls": "1.0.*",
         "symfony/finder": "^3.4|^4.1"
@@ -35,10 +35,14 @@
             "Midnite81\\Prowl\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage --coverage-html build/html"
+    },
     "extra": {
         "component": "package",
         "frameworks": [
-            "Laravel 5"
+            "Laravel 8"
         ]
     },
     "minimum-stability": "stable"

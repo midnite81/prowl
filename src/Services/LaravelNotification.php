@@ -3,6 +3,8 @@
 namespace Midnite81\Prowl\Services;
 
 use Midnite81\Prowl\Contracts\Services\Notification as Contract;
+use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ValueTooLongException;
 
 class LaravelNotification extends Notification implements Contract
 {
@@ -12,8 +14,8 @@ class LaravelNotification extends Notification implements Contract
      * @param array $attributes
      * @param array $devices
      * @param null  $prowl
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     public function __construct(array $attributes = [], array $devices = [], $prowl = null)
     {
@@ -32,12 +34,13 @@ class LaravelNotification extends Notification implements Contract
      * @param null  $url
      * @param null  $providerKey
      * @param array $devices
+     *
      * @return static
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     public static function create($apiKey, $description, $application = null, $event = null, $priority = null,
-                                  $url = null, $providerKey = null, $devices = [])
+                                  $url = null, $providerKey = null, array $devices = []): static
     {
         $devices = (empty($devices)) ? config('prowl.keys', []) : $devices;
         return parent::create($apiKey, $description, $application, $event, $priority, $url, $providerKey, $devices);
@@ -46,13 +49,14 @@ class LaravelNotification extends Notification implements Contract
     /**
      * Factory Create From Array Method
      *
-     * @param       $attributes
+     * @param array $attributes
      * @param array $devices
+     *
      * @return static
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
-    public static function createFromArray($attributes = [], $devices = [])
+    public static function createFromArray(array $attributes = [], array $devices = []): static
     {
         $devices = (empty($devices)) ? config('prowl.keys', []) : $devices;
         return parent::createFromArray($attributes, $devices);
@@ -62,9 +66,9 @@ class LaravelNotification extends Notification implements Contract
      * Get Api Keys
      * If none set, set the laravel default.
      *
-     * @return mixed|void
+     * @return mixed
      */
-    public function getApiKeys()
+    public function getApiKeys(): mixed
     {
 
         if (empty($this->notification['apiKey'])) {

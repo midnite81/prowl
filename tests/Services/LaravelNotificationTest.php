@@ -2,35 +2,48 @@
 
 namespace Midnite81\Prowl\Tests\Services;
 
+use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ValueTooLongException;
 use Midnite81\Prowl\Services\LaravelNotification;
+use Midnite81\Prowl\Services\Notification;
 
 class LaravelNotificationTest extends NotificationTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
+        parent::setUpBeforeClass();
         include_once __DIR__ . '/../Functions.php';
-    }
-    
-    public function it_gets_the_api_key()
-    {
-        $notification = $this->factoryCreateFromArray();
-
-        $this->assertInternalType('array', $notification->getApiKeys());
     }
 
     /**
      * @test
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
+     */
+    public function it_gets_the_api_key()
+    {
+        $notification = $this->factoryCreateFromArray();
+
+        $this->assertIsString($notification->getApiKeys());
+        $this->assertEquals('<iphone_api_key>', $notification->getApiKeys());
+    }
+
+    /**
+     * @test
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     public function it_uses_default_device_if_not_specified()
     {
         $notification = $this->factoryCreateFromArray();
 
-        $this->assertContains(config('prowl')['keys'][config('prowl')['defaultKey']], $notification->getApiKeys());
+        $this->assertEquals('<iphone_api_key>',config('prowl')['keys'][config('prowl')['defaultKey']]);
+        $this->assertEquals('<iphone_api_key>', $notification->getApiKeys());
     }
 
     /**
      * Overrides the method which is only needed on the base test
-     * since Laravel will auto inject the key
+     * since Laravel will auto-inject the key
      */
     public function it_returns_null_if_no_api_key_is_set()
     {
@@ -38,11 +51,11 @@ class LaravelNotificationTest extends NotificationTest
     }
 
     /**
-     * @return LaravelNotification
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @return Notification
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
-    protected function instantiateNotification()
+    protected function instantiateNotification(): Notification
     {
         return new LaravelNotification([], [], null);
     }
@@ -50,24 +63,25 @@ class LaravelNotificationTest extends NotificationTest
     /**
      * @param array $attributes
      * @param array $devices
+     *
      * @return LaravelNotification
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
-    protected function factoryCreateFromArray($attributes = [], $devices = [])
+    protected function factoryCreateFromArray(array $attributes = [], array $devices = []): Notification
     {
         return LaravelNotification::createFromArray($attributes, $devices);
     }
 
     /**
-     * @return LaravelNotification
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @return Notification
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
-    protected function factoryCreate()
+    protected function factoryCreate(): Notification
     {
         return LaravelNotification::create('testApi', 'testDescription', 'testApplication',
-            'testEvent',1, 'testUrl', 'testProviderKey');
+            'testEvent', 1, 'testUrl', 'testProviderKey');
     }
 
 }

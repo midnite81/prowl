@@ -12,21 +12,21 @@ interface Notification
      *
      * @return string
      */
-    public function toJson();
+    public function toJson(): string;
 
     /**
      * Return an array of Form Parameters
      *
      * @return array
      */
-    public function formParams();
+    public function formParams(): array;
 
     /**
      * Get the api key
      *
      * @return mixed
      */
-    public function getApiKeys();
+    public function getApiKeys(): mixed;
 
     /**
      * Set Api Key [unlimited]
@@ -36,14 +36,14 @@ interface Notification
      * @param $value
      * @return \Midnite81\Prowl\Services\Notification
      */
-    public function setApiKeys($value);
+    public function setApiKeys($value): self;
 
     /**
      * Get Provider Key
      *
      * @return mixed
      */
-    public function getProviderKey();
+    public function getProviderKey(): mixed;
 
     /**
      * Set Provider API key. [40]
@@ -53,14 +53,14 @@ interface Notification
      * @return \Midnite81\Prowl\Services\Notification
      * @throws ValueTooLongException
      */
-    public function setProviderKey($value);
+    public function setProviderKey($value): self;
 
     /**
      * Get Priority
      *
      * @return mixed
      */
-    public function getPriority();
+    public function getPriority(): mixed;
 
     /**
      * Default value of 0 if not provided. An integer value ranging [-2, 2] representing:
@@ -75,14 +75,14 @@ interface Notification
      * @return \Midnite81\Prowl\Services\Notification
      * @throws IncorrectPriorityValueException
      */
-    public function setPriority($value);
+    public function setPriority($value): self;
 
     /**
      * Get Url
      *
      * @return mixed
      */
-    public function getUrl();
+    public function getUrl(): mixed;
 
     /**
      * Set the url [512]
@@ -93,14 +93,14 @@ interface Notification
      * @return \Midnite81\Prowl\Services\Notification
      * @throws ValueTooLongException
      */
-    public function setUrl($value);
+    public function setUrl($value): self;
 
     /**
      * Get Application
      *
      * @return mixed
      */
-    public function getApplication();
+    public function getApplication(): mixed;
 
     /**
      * Set application [256]
@@ -111,14 +111,14 @@ interface Notification
      * @return \Midnite81\Prowl\Services\Notification
      * @throws ValueTooLongException
      */
-    public function setApplication($value);
+    public function setApplication($value): self;
 
     /**
      * Get Event
      *
      * @return mixed
      */
-    public function getEvent();
+    public function getEvent(): mixed;
 
     /**
      * Set event [1024]
@@ -128,14 +128,14 @@ interface Notification
      * @return \Midnite81\Prowl\Services\Notification
      * @throws ValueTooLongException
      */
-    public function setEvent($value);
+    public function setEvent($value): self;
 
     /**
      * Get Url
      *
      * @return mixed
      */
-    public function getDescription();
+    public function getDescription(): mixed;
 
     /**
      * Set description [10000]
@@ -145,14 +145,14 @@ interface Notification
      * @return \Midnite81\Prowl\Services\Notification
      * @throws ValueTooLongException
      */
-    public function setDescription($value);
+    public function setDescription($value): self;
 
     /**
      * Alias for Get Description
      *
      * @return mixed
      */
-    public function getMessage();
+    public function getMessage(): mixed;
 
     /**
      * Alias for Set Description
@@ -161,5 +161,5 @@ interface Notification
      * @return \Midnite81\Prowl\Services\Notification
      * @throws ValueTooLongException
      */
-    public function setMessage($value);
+    public function setMessage($value): self;
 }

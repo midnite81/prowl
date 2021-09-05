@@ -12,7 +12,7 @@ class Prowl extends Facade
      * @return string
      * @codeCoverageIgnore
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'midnite81.prowl';
     }

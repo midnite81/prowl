@@ -2,19 +2,16 @@
 
 namespace Midnite81\Prowl\Tests;
 
-use Carbon\Carbon;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Midnite81\Prowl\LaravelProwl;
 use Midnite81\Prowl\Prowl;
-use Midnite81\Prowl\Services\Notification;
-use Midnite81\Prowl\Services\Response;
-use PHPUnit\Framework\TestCase;
 
 class LaravelProwlTest extends ProwlTest
 {
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
+        parent::setUpBeforeClass();
         include_once 'Functions.php';
     }
 
@@ -45,15 +42,15 @@ class LaravelProwlTest extends ProwlTest
     /**
      * @return Prowl
      */
-    protected function instantiateProwl()
+    protected function instantiateProwl(): Prowl
     {
         return new LaravelProwl();
     }
 
     /**
-     * @return static
+     * @return Prowl
      */
-    protected function factoryCreate()
+    protected function factoryCreate(): Prowl
     {
         return LaravelProwl::create();
     }
@@ -61,9 +58,10 @@ class LaravelProwlTest extends ProwlTest
     /**
      * @param $httpClient
      * @param $requestFactory
-     * @return static
+     *
+     * @return Prowl
      */
-    protected function factoryCreateCustom($httpClient, $requestFactory)
+    protected function factoryCreateCustom($httpClient, $requestFactory): Prowl
     {
         return LaravelProwl::createCustom($httpClient, $requestFactory);
     }

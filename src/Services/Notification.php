@@ -2,6 +2,7 @@
 
 namespace Midnite81\Prowl\Services;
 
+use Http\Client\Exception as HttpClientException;
 use Midnite81\Prowl\Contracts\Services\Notification as Contract;
 use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
 use Midnite81\Prowl\Exceptions\ProwlNotAvailableException;
@@ -15,12 +16,12 @@ class Notification implements Contract
      *
      * @var array
      */
-    protected $notification = [];
+    protected array $notification = [];
 
     /**
      * @var array
      */
-    protected $devices = [];
+    protected array $devices = [];
 
     /**
      * Notification constructor.
@@ -28,10 +29,11 @@ class Notification implements Contract
      * @param array $attributes
      * @param array $devices
      * @param null  $prowl
+     *
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public function __construct($attributes = [], $devices = [], $prowl = null)
+    public function __construct(array $attributes = [], array $devices = [], $prowl = null)
     {
         $this->addAttributes($attributes);
         $this->devices = $devices;
@@ -49,12 +51,13 @@ class Notification implements Contract
      * @param       $url
      * @param       $providerKey
      * @param array $devices
+     *
      * @return static
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
     public static function create($apiKey, $description, $application = null, $event = null, $priority = null,
-                                  $url = null, $providerKey = null, $devices = [])
+                                  $url = null, $providerKey = null, array $devices = []): static
     {
         return new static([
             'apiKey' => $apiKey,
@@ -70,13 +73,14 @@ class Notification implements Contract
     /**
      * Factory Create From Array Method
      *
-     * @param       $attributes
+     * @param array $attributes
      * @param array $devices
+     *
      * @return static
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public static function createFromArray($attributes = [], $devices = [])
+    public static function createFromArray(array $attributes = [], array $devices = []): static
     {
         return new static($attributes, $devices, null);
     }
@@ -86,7 +90,7 @@ class Notification implements Contract
      *
      * @return string
      */
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->formParams());
     }
@@ -96,7 +100,7 @@ class Notification implements Contract
      *
      * @return array
      */
-    public function formParams()
+    public function formParams(): array
     {
         $formParams = [
             'apikey' => $this->getApiKeys(),
@@ -121,7 +125,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getApiKeys()
+    public function getApiKeys(): mixed
     {
         if (! empty($this->notification['apiKey'])) {
             return implode(',', $this->processApiKeys());
@@ -137,7 +141,7 @@ class Notification implements Contract
      * @param $value
      * @return Notification
      */
-    public function setApiKeys($value)
+    public function setApiKeys($value): Contract
     {
         $value = (is_string($value)) ? [$value] : $value;
 
@@ -154,7 +158,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getProviderKey()
+    public function getProviderKey(): mixed
     {
         return ! empty($this->notification['providerKey']) ? $this->notification['providerKey'] : null;
     }
@@ -167,7 +171,7 @@ class Notification implements Contract
      * @return Notification
      * @throws ValueTooLongException
      */
-    public function setProviderKey($value)
+    public function setProviderKey($value): Contract
     {
         if (strlen($value) > 40) {
             throw new ValueTooLongException('The provider key is too long');
@@ -182,7 +186,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getPriority()
+    public function getPriority(): mixed
     {
         return ! empty($this->notification['priority']) ? $this->notification['priority'] : 0;
     }
@@ -200,7 +204,7 @@ class Notification implements Contract
      * @return $this
      * @throws IncorrectPriorityValueException
      */
-    public function setPriority($value)
+    public function setPriority($value): Contract
     {
         if (! is_numeric($value) || ($value < -2 || $value > 2)) {
             throw new IncorrectPriorityValueException('You have provided an incorrect priority value');
@@ -215,7 +219,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getUrl()
+    public function getUrl(): mixed
     {
         return ! empty($this->notification['url']) ? $this->notification['url'] : null;
     }
@@ -229,7 +233,7 @@ class Notification implements Contract
      * @return $this
      * @throws ValueTooLongException
      */
-    public function setUrl($value)
+    public function setUrl($value): Contract
     {
         if (strlen($value) > 512) {
             throw new ValueTooLongException('The url is too long');
@@ -244,7 +248,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getApplication()
+    public function getApplication(): mixed
     {
         return ! empty($this->notification['application']) ? $this->notification['application'] : null;
     }
@@ -258,7 +262,7 @@ class Notification implements Contract
      * @return $this
      * @throws ValueTooLongException
      */
-    public function setApplication($value)
+    public function setApplication($value): Contract
     {
         if (strlen($value) > 256) {
             throw new ValueTooLongException('The application name is too long');
@@ -273,7 +277,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getEvent()
+    public function getEvent(): mixed
     {
         return ! empty($this->notification['event']) ? $this->notification['event'] : null;
     }
@@ -286,7 +290,7 @@ class Notification implements Contract
      * @return $this
      * @throws ValueTooLongException
      */
-    public function setEvent($value)
+    public function setEvent($value): Contract
     {
         if (strlen($value) > 1024) {
             throw new ValueTooLongException('The event name is too long');
@@ -301,7 +305,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getDescription()
+    public function getDescription(): mixed
     {
         return ! empty($this->notification['description']) ? $this->notification['description'] : null;
     }
@@ -314,7 +318,7 @@ class Notification implements Contract
      * @return $this
      * @throws ValueTooLongException
      */
-    public function setDescription($value)
+    public function setDescription($value): Contract
     {
         if (strlen($value) > 10000) {
             throw new ValueTooLongException('The provider key is too long');
@@ -329,7 +333,7 @@ class Notification implements Contract
      *
      * @return mixed
      */
-    public function getMessage()
+    public function getMessage(): mixed
     {
         return ! empty($this->getDescription()) ? $this->getDescription() : null;
     }
@@ -341,7 +345,7 @@ class Notification implements Contract
      * @return Notification
      * @throws ValueTooLongException
      */
-    public function setMessage($value)
+    public function setMessage($value): Contract
     {
         return $this->setDescription($value);
     }
@@ -351,9 +355,9 @@ class Notification implements Contract
      *
      * @return Response
      * @throws ProwlNotAvailableException
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function send()
+    public function send(): Response
     {
         if ($this->prowl instanceof Prowl) {
             return $this->prowl->add($this);
@@ -366,9 +370,9 @@ class Notification implements Contract
      *
      * @return Response
      * @throws ProwlNotAvailableException
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function add()
+    public function add(): Response
     {
         return $this->send();
     }
@@ -378,9 +382,9 @@ class Notification implements Contract
      *
      * @return Response
      * @throws ProwlNotAvailableException
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function push()
+    public function push(): Response
     {
         return $this->send();
     }
@@ -392,7 +396,7 @@ class Notification implements Contract
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    protected function addAttributes($attributes)
+    protected function addAttributes($attributes): void
     {
         if (! empty($attributes['apiKey'])) {
             $this->setApiKeys($attributes['apiKey']);
@@ -426,8 +430,10 @@ class Notification implements Contract
 
     /**
      * Replace the 'device' names with API key values
+     *
+     * @return mixed
      */
-    protected function processApiKeys()
+    protected function processApiKeys(): mixed
     {
         if (! empty($this->notification['apiKey'])) {
             for($i = 0; $i < count($this->notification['apiKey']); $i++) {

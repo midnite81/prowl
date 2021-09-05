@@ -21,11 +21,12 @@ This allows you, should you wish, to use your own HTTP Client instead of Guzzle.
 information on PHP-HTTP, please visit [php-http.org](http://docs.php-http.org/)
 
 ## Versioning
-|Version|Description|
-|---|---|
-|v3.*|Support added to use Carbon 1 or 2 as a dependency|
-|v2.*|Completely rewritten from the ground up, with no additional prowl dependencies|
-|v1.*|Unsupported - Relied on other prowl packages|
+|Version|Description|Php Ver|
+|---|---|---|
+|v4.*|Update dependencies for use with PHP 8|8+|
+|v3.*|Support added to use Carbon 1 or 2 as a dependency|7.1+|
+|v2.*|Completely rewritten from the ground up, with no additional prowl dependencies|7.1+|
+|v1.*|Unsupported - Relied on other prowl packages|5.6+|
 
 ## Laravel 5 Integration
 

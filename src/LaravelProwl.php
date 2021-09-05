@@ -22,13 +22,16 @@ class LaravelProwl extends Prowl
     }
 
     /**
+     * Create a message
+     *
      * @param array $attributes
      * @param array $devices
+     *
      * @return Notification
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createMessage($attributes = [], $devices = [])
+    public function createMessage(array $attributes = [], array $devices = []): Notification
     {
         $devices = (empty($devices)) ? config('prowl.keys') : $devices;
         return new LaravelNotification($attributes, $devices, $this);
@@ -39,11 +42,12 @@ class LaravelProwl extends Prowl
      *
      * @param array $attributes
      * @param array $devices
+     *
      * @return Notification
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createNotification($attributes = [], $devices = [])
+    public function createNotification(array $attributes = [], array $devices = []): Notification
     {
         $devices = (empty($devices)) ? config('prowl.keys') : $devices;
         return $this->createMessage($attributes, $devices, $this);

@@ -9,7 +9,7 @@ trait GenerateStrings
      * @param $int
      * @return string
      */
-    protected function stringLength($int)
+    protected function stringLength($int): string
     {
         $output = '';
 

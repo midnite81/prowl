@@ -2,26 +2,25 @@
 
 namespace Midnite81\Prowl\Tests\Services;
 
+use Exception;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Midnite81\Prowl\Services\Response;
-use Midnite81\Xml2Array\Xml2Array;
 use Midnite81\Xml2Array\XmlResponse;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 class ResponseTest extends TestCase
 {
-    protected $successResponseObject;
+    protected GuzzleResponse $successResponseObject;
 
-    protected $failureResponseObject;
+    protected GuzzleResponse $failureResponseObject;
 
-    protected $response;
+    protected Response $response;
 
-    protected $failedResponse;
+    protected Response $failedResponse;
 
-    protected $retrieveApiKeyResponse;
+    protected Response $retrieveApiKeyResponse;
 
-    protected $retrieveTokenResponse;
+    protected Response $retrieveTokenResponse;
 
 
     /**
@@ -38,9 +37,10 @@ class ResponseTest extends TestCase
     public function it_returns_json_when_hitting_the_to_string_method()
     {
         $response = $this->response . '';
+        
         $responseArray = json_decode($response, true);
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString( $response);
         $this->assertJson($response);
 
         $this->assertArrayHasKey('isSuccess', $responseArray);
@@ -61,7 +61,7 @@ class ResponseTest extends TestCase
     {
         $array = $this->response->toArray();
 
-        $this->assertInternalType('array', $array);
+        $this->assertIsArray( $array);
         $this->assertArrayHasKey('isSuccess', $array);
         $this->assertArrayHasKey('isError', $array);
         $this->assertArrayHasKey('statusCode', $array);
@@ -80,7 +80,7 @@ class ResponseTest extends TestCase
     {
         $json = $this->response->toJson();
 
-        $this->assertInternalType('string', $json);
+        $this->assertIsString($json);
         $this->assertJson($json);
     }
 
@@ -101,7 +101,7 @@ class ResponseTest extends TestCase
     {
         $response = $this->response->getContents();
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
         $this->stringContains('xml');
     }
     
@@ -149,10 +149,11 @@ class ResponseTest extends TestCase
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
         $successMessage = <<<body
 <?xml version="1.0" encoding="UTF-8"?>
 <prowl>
@@ -160,7 +161,7 @@ class ResponseTest extends TestCase
 </prowl>
 body;
 
-        $this->successResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $successMessage, '1.1', null);
+        $this->successResponseObject = new GuzzleResponse($status = 200, [], $successMessage, '1.1', null);
 
         $failureMessage = <<<body
 <?xml version="1.0" encoding="UTF-8"?><prowl>
@@ -168,7 +169,7 @@ body;
 </prowl>
 body;
 
-        $this->failureResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $failureMessage, '1.1', null);
+        $this->failureResponseObject = new GuzzleResponse($status = 200, [], $failureMessage, '1.1', null);
 
         $retrieveApiKeyObject = <<<body
 <?xml version="1.0" encoding="UTF-8"?><prowl>
@@ -178,7 +179,7 @@ body;
 </prowl>
 body;
 
-        $retrieveApiKeyResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $retrieveApiKeyObject, '1.1', null);
+        $retrieveApiKeyResponseObject = new GuzzleResponse($status = 200, [], $retrieveApiKeyObject, '1.1', null);
 
         $retrieveTokenObject = <<<body
 <?xml version="1.0" encoding="UTF-8"?><prowl>
@@ -187,7 +188,7 @@ body;
     <retrieve token="TOKEN" url="URL" />
 </prowl>
 body;
-        $retrieveTokenResponseObject = new \GuzzleHttp\Psr7\Response($status = 200, [], $retrieveTokenObject, '1.1', null);
+        $retrieveTokenResponseObject = new GuzzleResponse($status = 200, [], $retrieveTokenObject, '1.1', null);
 
         $this->response = new Response($this->successResponseObject);
         $this->failedResponse = new Response($this->failureResponseObject);

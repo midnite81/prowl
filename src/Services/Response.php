@@ -3,7 +3,9 @@
 namespace Midnite81\Prowl\Services;
 
 use Carbon\Carbon;
+use Exception;
 use Midnite81\Xml2Array\Xml2Array;
+use Midnite81\Xml2Array\XmlResponse;
 use Psr\Http\Message\ResponseInterface;
 
 class Response
@@ -11,19 +13,19 @@ class Response
     /**
      * @var ResponseInterface
      */
-    protected $response;
+    protected ResponseInterface $response;
 
-    protected $contents;
+    protected string $contents;
 
-    protected $xml;
+    protected XmlResponse $xml;
 
-    protected $attributes;
+    protected array $attributes;
 
     /**
      * Response constructor.
      *
      * @param ResponseInterface $response
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(ResponseInterface $response)
     {
@@ -36,9 +38,9 @@ class Response
      *
      * @param $response
      * @return static
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function create($response)
+    public static function create($response): static
     {
         return new static($response);
     }
@@ -48,7 +50,7 @@ class Response
      *
      * @return mixed
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }
@@ -58,7 +60,7 @@ class Response
      *
      * @return string
      */
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->attributes);
     }
@@ -68,7 +70,7 @@ class Response
      *
      * @return ResponseInterface
      */
-    public function getResponse()
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }
@@ -76,9 +78,9 @@ class Response
     /**
      * Get the contents of the response
      *
-     * @return mixed
+     * @return string
      */
-    public function getContents()
+    public function getContents(): string
     {
         return $this->contents;
     }
@@ -88,7 +90,7 @@ class Response
      *
      * @return mixed
      */
-    public function getFormattedXml()
+    public function getFormattedXml(): mixed
     {
         return $this->xml;
     }
@@ -99,7 +101,7 @@ class Response
      *
      * @return mixed
      */
-    public function getStatusCode()
+    public function getStatusCode(): mixed
     {
         return $this->get('statusCode');
     }
@@ -109,7 +111,7 @@ class Response
      *
      * @return mixed
      */
-    public function getRemaining()
+    public function getRemaining(): mixed
     {
         return $this->get('remaining');
     }
@@ -119,7 +121,7 @@ class Response
      *
      * @return Carbon|null
      */
-    public function getResetDate()
+    public function getResetDate(): ?Carbon
     {
         return $this->get('resetDate');
     }
@@ -127,9 +129,9 @@ class Response
     /**
      * Get error code
      *
-     * @return null
+     * @return mixed
      */
-    public function getErrorCode()
+    public function getErrorCode(): mixed
     {
         return $this->get('errorCode');
     }
@@ -137,9 +139,9 @@ class Response
     /**
      * Get error message
      *
-     * @return null
+     * @return mixed
      */
-    public function getErrorMessage()
+    public function getErrorMessage(): mixed
     {
         return $this->get('errorMessage');
     }
@@ -147,9 +149,9 @@ class Response
     /**
      * Get api key
      *
-     * @return null
+     * @return mixed
      */
-    public function getRetrieveApiKey()
+    public function getRetrieveApiKey(): mixed
     {
         return $this->get('retrieveApiKey');
     }
@@ -157,7 +159,7 @@ class Response
     /*
      * Get Token
      *
-     * @return null
+     * @return mixed
      */
     public function getToken()
     {
@@ -167,9 +169,9 @@ class Response
     /**
      * Is success response
      *
-     * @return null
+     * @return mixed
      */
-    public function isSuccess()
+    public function isSuccess(): mixed
     {
         return $this->get('isSuccess');
     }
@@ -177,18 +179,18 @@ class Response
     /**
      * Is error response
      *
-     * @return null
+     * @return mixed
      */
-    public function isError()
+    public function isError(): mixed
     {
         return $this->get('isError');
     }
 
     /**
      * @param ResponseInterface $response
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function setUp(ResponseInterface $response)
+    protected function setUp(ResponseInterface $response): void
     {
         $this->response = $response;
         $this->contents = $this->response->getBody()->getContents();

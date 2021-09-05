@@ -1,6 +1,7 @@
 <?php
 namespace Midnite81\Prowl\Contracts;
 
+use Http\Client\Exception as HttpClientException;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
 
@@ -14,28 +15,31 @@ interface Prowl
      * You must provide either event or description or both.
      *
      * @param Notification $notification
+     *
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function add(Notification $notification);
+    public function add(Notification $notification): Response;
 
     /**
      * Alias of Add
      *
      * @param Notification $notification
+     *
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function push(Notification $notification);
+    public function push(Notification $notification): Response;
 
     /**
      * Alias of Add
      *
      * @param Notification $notification
+     *
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function send(Notification $notification);
+    public function send(Notification $notification): Response;
 
     /**
      * Verify [GET]
@@ -47,10 +51,11 @@ interface Prowl
      *
      * @param $apiKey
      * @param $providerKey
+     *
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function verify($apiKey, $providerKey = null);
+    public function verify($apiKey, $providerKey = null): Response;
 
     /**
      * Retrieve Token [GET]
@@ -59,10 +64,11 @@ interface Prowl
      * This is the first step in fetching an API key for a user. The token retrieved expires after 24 hours.
      *
      * @param $providerKey
+     *
      * @return Response|string
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function retrieveToken($providerKey);
+    public function retrieveToken($providerKey): Response|string;
 
     /**
      * Retrieve API Key [GET]
@@ -74,8 +80,9 @@ interface Prowl
      *
      * @param $providerKey
      * @param $token
+     *
      * @return Response|string
-     * @throws \Http\Client\Exception
+     * @throws HttpClientException
      */
-    public function retrieveApiKey($providerKey, $token);
+    public function retrieveApiKey($providerKey, $token): Response|string;
 }
