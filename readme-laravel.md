@@ -5,23 +5,25 @@
 To integrate this package more fully with Laravel 5, add the Prowl service provider to the list of service providers 
 in `app/config/app.php`.
 
-    'providers' => [
-
-      Midnite81\Prowl\ProwlServiceProvider::class
-              
-    ];
+```php
+'providers' => [
+  Midnite81\Prowl\ProwlServiceProvider::class
+];
+```
     
 Add the `Prowl` facade to your aliases array.
 
-    'aliases' => [
-
-      'Prowl' => Midnite81\Prowl\Facades\Prowl::class,
-      
-    ];
+```php
+'aliases' => [
+  'Prowl' => Midnite81\Prowl\Facades\Prowl::class,
+];
+```
     
 Publish the Prowl config file using 
-`php artisan vendor:publish --provider="Midnite81\Prowl\ProwlServiceProvider"`
-    
+```sh
+php artisan vendor:publish --provider="Midnite81\Prowl\ProwlServiceProvider"
+```
+
 ## Configuration File
 
 Once you have published the config files, you will find a `prowl.php` file in the `config` folder. You should 
