@@ -2,6 +2,8 @@
 namespace Midnite81\Prowl\Contracts;
 
 use Http\Client\Exception;
+use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ValueTooLongException;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
 
@@ -79,4 +81,15 @@ interface Prowl
      * @throws Exception
      */
     public function retrieveApiKey($providerKey, $token);
+
+    /**
+     * Create a message
+     *
+     * @param array $attributes
+     * @param array $devices
+     * @return Notification
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
+     */
+    public function createMessage($attributes = [], $devices = []);
 }
