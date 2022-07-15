@@ -3,6 +3,8 @@
 namespace Midnite81\Prowl;
 
 use Http\Message\RequestFactory;
+use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ValueTooLongException;
 use Midnite81\Prowl\Services\LaravelNotification;
 use Midnite81\Prowl\Services\Notification;
 
@@ -25,8 +27,8 @@ class LaravelProwl extends Prowl
      * @param array $attributes
      * @param array $devices
      * @return Notification
-     * @throws Exceptions\IncorrectPriorityValueException
-     * @throws Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     public function createMessage($attributes = [], $devices = [])
     {
@@ -40,8 +42,8 @@ class LaravelProwl extends Prowl
      * @param array $attributes
      * @param array $devices
      * @return Notification
-     * @throws Exceptions\IncorrectPriorityValueException
-     * @throws Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     public function createNotification($attributes = [], $devices = [])
     {
