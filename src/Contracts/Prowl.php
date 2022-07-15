@@ -1,6 +1,7 @@
 <?php
 namespace Midnite81\Prowl\Contracts;
 
+use Http\Client\Exception;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
 
@@ -15,7 +16,7 @@ interface Prowl
      *
      * @param Notification $notification
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws Exception
      */
     public function add(Notification $notification);
 
@@ -24,7 +25,7 @@ interface Prowl
      *
      * @param Notification $notification
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws Exception
      */
     public function push(Notification $notification);
 
@@ -33,7 +34,7 @@ interface Prowl
      *
      * @param Notification $notification
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws Exception
      */
     public function send(Notification $notification);
 
@@ -48,7 +49,7 @@ interface Prowl
      * @param $apiKey
      * @param $providerKey
      * @return Response
-     * @throws \Http\Client\Exception
+     * @throws Exception
      */
     public function verify($apiKey, $providerKey = null);
 
@@ -60,7 +61,7 @@ interface Prowl
      *
      * @param $providerKey
      * @return Response|string
-     * @throws \Http\Client\Exception
+     * @throws Exception
      */
     public function retrieveToken($providerKey);
 
@@ -75,7 +76,7 @@ interface Prowl
      * @param $providerKey
      * @param $token
      * @return Response|string
-     * @throws \Http\Client\Exception
+     * @throws Exception
      */
     public function retrieveApiKey($providerKey, $token);
 }
