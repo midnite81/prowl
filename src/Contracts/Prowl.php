@@ -91,5 +91,5 @@ interface Prowl
      * @throws IncorrectPriorityValueException
      * @throws ValueTooLongException
      */
-    public function createMessage($attributes = [], $devices = []);
+    public function createMessage(array $attributes = [], array $devices = []): Notification;
 }

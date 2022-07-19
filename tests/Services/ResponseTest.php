@@ -40,7 +40,7 @@ class ResponseTest extends TestCase
         $response = $this->response . '';
         $responseArray = json_decode($response, true);
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
         $this->assertJson($response);
 
         $this->assertArrayHasKey('isSuccess', $responseArray);
@@ -61,7 +61,7 @@ class ResponseTest extends TestCase
     {
         $array = $this->response->toArray();
 
-        $this->assertInternalType('array', $array);
+        $this->assertIsArray($array);
         $this->assertArrayHasKey('isSuccess', $array);
         $this->assertArrayHasKey('isError', $array);
         $this->assertArrayHasKey('statusCode', $array);
@@ -80,7 +80,7 @@ class ResponseTest extends TestCase
     {
         $json = $this->response->toJson();
 
-        $this->assertInternalType('string', $json);
+        $this->assertIsString($json);
         $this->assertJson($json);
     }
 
@@ -101,7 +101,7 @@ class ResponseTest extends TestCase
     {
         $response = $this->response->getContents();
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
         $this->stringContains('xml');
     }
     

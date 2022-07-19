@@ -2,6 +2,8 @@
 
 namespace Midnite81\Prowl\Tests\Services;
 
+use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ValueTooLongException;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Tests\Traits\GenerateStrings;
 use PHPUnit\Framework\TestCase;
@@ -48,8 +50,8 @@ class NotificationTest extends TestCase
             ]
         );
 
-        $this->assertInternalType('string', $notification->getApiKeys());
-        $this->assertContains('testApi', $notification->getApiKeys());
+        $this->assertIsString($notification->getApiKeys());
+        $this->assertStringContainsString('testApi', $notification->getApiKeys());
         $this->assertEquals('testProviderKey', $notification->getProviderKey());
         $this->assertEquals(1, $notification->getPriority());
         $this->assertEquals('testUrl', $notification->getUrl());
@@ -73,8 +75,8 @@ class NotificationTest extends TestCase
             ->setEvent('testEvent')
             ->setDescription('testDescription');
 
-        $this->assertInternalType('string', $notification->getApiKeys());
-        $this->assertContains('testApi', $notification->getApiKeys());
+        $this->assertIsString($notification->getApiKeys());
+        $this->assertStringContainsString('testApi', $notification->getApiKeys());
         $this->assertEquals('testProviderKey', $notification->getProviderKey());
         $this->assertEquals(1, $notification->getPriority());
         $this->assertEquals('testUrl', $notification->getUrl());
@@ -91,8 +93,8 @@ class NotificationTest extends TestCase
         /** @var Notification $notification */
         $notification = $this->factoryCreate();
 
-        $this->assertInternalType('string', $notification->getApiKeys());
-        $this->assertContains('testApi', $notification->getApiKeys());
+        $this->assertIsString($notification->getApiKeys());
+        $this->assertStringContainsString('testApi', $notification->getApiKeys());
         $this->assertEquals('testProviderKey', $notification->getProviderKey());
         $this->assertEquals(1, $notification->getPriority());
         $this->assertEquals('testUrl', $notification->getUrl());
@@ -109,13 +111,13 @@ class NotificationTest extends TestCase
         $notification = $this->factoryCreate();
 
         $this->assertCount(1, explode(',', $notification->getApiKeys()));
-        $this->assertContains('testApi', $notification->getApiKeys());
+        $this->assertStringContainsString('testApi', $notification->getApiKeys());
 
         $notification->setApiKeys('test123');
 
         $this->assertCount(2, explode(',', $notification->getApiKeys()));
-        $this->assertContains('testApi', $notification->getApiKeys());
-        $this->assertContains('test123', $notification->getApiKeys());
+        $this->assertStringContainsString('testApi', $notification->getApiKeys());
+        $this->assertStringContainsString('test123', $notification->getApiKeys());
     }
 
     /**
@@ -142,10 +144,11 @@ class NotificationTest extends TestCase
 
      /**
       * @test
-      * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+      *
       */
      public function it_throws_exception_when_the_provider_key_is_too_long()
      {
+         $this->expectException(ValueTooLongException::class);
          $notification = $this->factoryCreateFromArray();
 
          $notification->setProviderKey($this->stringLength(41));
@@ -168,7 +171,7 @@ class NotificationTest extends TestCase
     {
         $notification = $this->factoryCreate();
 
-        $this->assertInternalType('array', $notification->formParams());
+        $this->assertIsArray($notification->formParams());
     }
 
     /**
@@ -179,8 +182,8 @@ class NotificationTest extends TestCase
         $notification = $this->factoryCreate();
         $notificationArray = $notification->formParams();
 
-        $this->assertInternalType('string', $notificationArray['apikey']);
-        $this->assertContains('testApi', $notificationArray['apikey']);
+        $this->assertIsString($notificationArray['apikey']);
+        $this->assertStringContainsString('testApi', $notificationArray['apikey']);
         $this->assertEquals('testProviderKey', $notificationArray['providerkey']);
         $this->assertEquals(1, $notificationArray['priority']);
         $this->assertEquals('testUrl', $notificationArray['url']);
@@ -204,8 +207,8 @@ class NotificationTest extends TestCase
             ]
         );
 
-        $this->assertInternalType('string', $notification->getApiKeys());
-        $this->assertContains('testDeviceApiKey', $notification->getApiKeys());
+        $this->assertIsString($notification->getApiKeys());
+        $this->assertStringContainsString('testDeviceApiKey', $notification->getApiKeys());
     }
 
     /**
@@ -220,21 +223,23 @@ class NotificationTest extends TestCase
 
      /**
       * @test
-      * @expectedException \Midnite81\Prowl\Exceptions\ProwlNotAvailableException
+      *
       */
      public function it_throws_an_exception_when_sending_without_prowl()
      {
-        $notification = $this->factoryCreate();
+         $this->expectException(\Midnite81\Prowl\Exceptions\ProwlNotAvailableException::class);
+         $notification = $this->factoryCreate();
 
         $notification->add();
      }
 
     /**
      * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ProwlNotAvailableException
+     *
      */
     public function it_throws_an_exception_when_sending_without_prowl_send_alias()
     {
+        $this->expectException(\Midnite81\Prowl\Exceptions\ProwlNotAvailableException::class);
         $notification = $this->factoryCreate();
 
         $notification->send();
@@ -242,10 +247,11 @@ class NotificationTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ProwlNotAvailableException
+     *
      */
     public function it_throws_an_exception_when_sending_without_prowl_push_alias()
     {
+        $this->expectException(\Midnite81\Prowl\Exceptions\ProwlNotAvailableException::class);
         $notification = $this->factoryCreate();
 
         $notification->push();
@@ -253,8 +259,8 @@ class NotificationTest extends TestCase
 
     /**
      * @return Notification
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     protected function instantiateNotification()
     {
@@ -265,8 +271,8 @@ class NotificationTest extends TestCase
      * @param array $attributes
      * @param array $devices
      * @return Notification
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     protected function factoryCreateFromArray($attributes = [], $devices = [])
     {
@@ -275,8 +281,8 @@ class NotificationTest extends TestCase
 
     /**
      * @return Notification
-     * @throws \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     * @throws \Midnite81\Prowl\Exceptions\ValueTooLongException
+     * @throws IncorrectPriorityValueException
+     * @throws ValueTooLongException
      */
     protected function factoryCreate()
     {

@@ -38,7 +38,7 @@ class Response
      * @return static
      * @throws \Exception
      */
-    public static function create($response)
+    public static function create($response): static
     {
         return new static($response);
     }

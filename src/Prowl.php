@@ -3,6 +3,7 @@
 namespace Midnite81\Prowl;
 
 use Http\Adapter\Guzzle6\Client;
+use Http\Client\HttpClient;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Http\Message\RequestFactory;
 use Http\Discovery\HttpClientDiscovery;
@@ -13,9 +14,9 @@ use Midnite81\Prowl\Services\Response;
 
 class Prowl implements Contract
 {
-    protected $apiUrl;
+    protected string $apiUrl;
 
-    protected $httpClient;
+    protected HttpClient $httpClient;
 
     protected $requestFactory;
 
@@ -39,7 +40,7 @@ class Prowl implements Contract
      * @param array $config
      * @return static
      */
-    public static function create($config = [])
+    public static function create(array $config = []): Prowl
     {
         return new static(new Client(), new GuzzleMessageFactory(), $config);
     }
@@ -47,10 +48,10 @@ class Prowl implements Contract
     /**
      * @param                $httpClient
      * @param RequestFactory $requestFactory
-     * @param array          $config
+     * @param array $config
      * @return static
      */
-    public static function createCustom($httpClient, RequestFactory $requestFactory, $config = [])
+    public static function createCustom($httpClient, RequestFactory $requestFactory, array $config = []): Prowl
     {
         return new static($httpClient, $requestFactory, $config);
     }
@@ -65,12 +66,13 @@ class Prowl implements Contract
      * @param Notification $notification
      * @return Response
      * @throws \Http\Client\Exception
+     * @throws \Exception
      */
-    public function add(Notification $notification)
+    public function add(Notification $notification): Response
     {
         $request = $this->requestFactory->createRequest('POST', $this->makeUrl('add'), [
             'Content-Type' => 'application/x-www-form-urlencoded'
-        ], http_build_query($notification->formParams(), null, '&'));
+        ], http_build_query($notification->formParams(), '', '&'));
 
         $request = $this->httpClient->sendRequest($request);
 
@@ -86,7 +88,7 @@ class Prowl implements Contract
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createMessage($attributes = [], $devices = [])
+    public function createMessage(array $attributes = [], array $devices = []): Notification
     {
         return new Notification($attributes, $devices, $this);
     }
@@ -100,7 +102,7 @@ class Prowl implements Contract
      * @throws Exceptions\IncorrectPriorityValueException
      * @throws Exceptions\ValueTooLongException
      */
-    public function createNotification($attributes = [], $devices = [])
+    public function createNotification(array $attributes = [], array $devices = []): Notification
     {
         return $this->createMessage($attributes, $devices);
     }
@@ -112,7 +114,7 @@ class Prowl implements Contract
      * @return Response
      * @throws \Http\Client\Exception
      */
-    public function push(Notification $notification)
+    public function push(Notification $notification): Response
     {
         return $this->add($notification);
     }
@@ -124,7 +126,7 @@ class Prowl implements Contract
      * @return Response
      * @throws \Http\Client\Exception
      */
-    public function send(Notification $notification)
+    public function send(Notification $notification): Response
     {
         return $this->add($notification);
     }
@@ -141,8 +143,9 @@ class Prowl implements Contract
      * @param $providerKey
      * @return Response
      * @throws \Http\Client\Exception
+     * @throws \Exception
      */
-    public function verify($apiKey, $providerKey = null)
+    public function verify($apiKey, $providerKey = null): Response
     {
         $request = $this->requestFactory->createRequest('GET',
             $this->makeUrl('verify', [
@@ -213,7 +216,7 @@ class Prowl implements Contract
      *
      * @return string
      */
-    protected function getApiUrl()
+    protected function getApiUrl(): string
     {
         return $this->apiUrl;
     }
@@ -221,13 +224,13 @@ class Prowl implements Contract
     /**
      * Make the url
      *
-     * @param       $action
+     * @param string $action
      * @param array $queryString
      * @return string
      */
-    protected function makeUrl($action, array $queryString = [])
+    protected function makeUrl(string $action, array $queryString = []): string
     {
-        $queryString = http_build_query($queryString, null, "&");
+        $queryString = http_build_query($queryString, '', "&");
         $queryString = (! empty($queryString)) ? '?' . $queryString : '';
 
         return $this->getApiUrl() . '/' . $action . $queryString;

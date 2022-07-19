@@ -66,10 +66,11 @@ class ProwlTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
+     *
      */
     public function it_throws_exception_for_incorrect_priority_range()
     {
+        $this->expectException(\Midnite81\Prowl\Exceptions\IncorrectPriorityValueException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setPriority(6);
@@ -77,10 +78,11 @@ class ProwlTest extends TestCase
 
      /**
       * @test
-      * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+      *
       */
      public function it_throws_exception_for_too_long_url()
      {
+         $this->expectException(\Midnite81\Prowl\Exceptions\ValueTooLongException::class);
          /** @var Prowl $prowl */
          $prowl = $this->factoryCreate();
          $prowl->createMessage()->setUrl($this->stringLength(513));
@@ -88,10 +90,11 @@ class ProwlTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+     *
      */
     public function it_throws_exception_for_too_long_application()
     {
+        $this->expectException(\Midnite81\Prowl\Exceptions\ValueTooLongException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setApplication($this->stringLength(260));
@@ -99,10 +102,11 @@ class ProwlTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+     *
      */
     public function it_throws_exception_for_too_long_event()
     {
+        $this->expectException(\Midnite81\Prowl\Exceptions\ValueTooLongException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setEvent($this->stringLength(1030));
@@ -110,10 +114,11 @@ class ProwlTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
+     *
      */
     public function it_throws_exception_for_too_long_description()
     {
+        $this->expectException(\Midnite81\Prowl\Exceptions\ValueTooLongException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setDescription($this->stringLength(100100));

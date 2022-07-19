@@ -24,9 +24,9 @@ interface Notification
     /**
      * Get the api key
      *
-     * @return mixed
+     * @return string|null
      */
-    public function getApiKeys();
+    public function getApiKeys(): ?string;
 
     /**
      * Set Api Key [unlimited]

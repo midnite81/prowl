@@ -25,7 +25,7 @@ class LaravelNotificationTest extends NotificationTest
     {
         $notification = $this->factoryCreateFromArray();
 
-        $this->assertContains(config('prowl')['keys'][config('prowl')['defaultKey']], $notification->getApiKeys());
+        $this->assertStringContainsString(config('prowl')['keys'][config('prowl')['defaultKey']], $notification->getApiKeys());
     }
 
     /**
