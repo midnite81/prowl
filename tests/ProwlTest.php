@@ -14,7 +14,7 @@ class ProwlTest extends TestCase
 {
     use GenerateStrings;
 
-    public function tearDown()
+    public function tearDown(): void
     {
         \Mockery::close();
     }

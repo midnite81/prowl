@@ -6,7 +6,7 @@ use Midnite81\Prowl\Services\LaravelNotification;
 
 class LaravelNotificationTest extends NotificationTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../Functions.php';
     }

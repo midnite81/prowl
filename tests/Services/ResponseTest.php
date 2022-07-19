@@ -151,7 +151,7 @@ class ResponseTest extends TestCase
     /**
      * @throws \Exception
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $successMessage = <<<body
 <?xml version="1.0" encoding="UTF-8"?>

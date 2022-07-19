@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class LaravelProwlTest extends ProwlTest
 {
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         include_once 'Functions.php';
     }
