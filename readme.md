@@ -4,7 +4,7 @@ _A PHP wrapper for using the [Prowl API](https://www.prowlapp.com), with a Larav
 
 # Installation
 
-This package requires PHP 5.6+, and comes with a Laravel 5 Service Provider and Facade for Laravel integration. 
+This package requires PHP 5.6+, and comes with a Laravel Service Provider and Facade for Laravel integration. 
 Please note, you do not need to have laravel installed to use this package. 
 
 To install through composer include the package in your `composer.json`.
