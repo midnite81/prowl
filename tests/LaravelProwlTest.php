@@ -23,7 +23,7 @@ class LaravelProwlTest extends ProwlTest
      */
     public function it_sends_message_when_created_through_prowl()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 

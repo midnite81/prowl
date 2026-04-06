@@ -2,7 +2,7 @@
 
 namespace Midnite81\Prowl;
 
-use Http\Adapter\Guzzle6\Client;
+use Http\Adapter\Guzzle7\Client;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Http\Message\RequestFactory;
 use Http\Discovery\HttpClientDiscovery;

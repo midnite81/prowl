@@ -44,7 +44,7 @@ class ProwlTest extends TestCase
      */
     public function it_constructs_using_custom_factory_method()
     {
-        $httpClient = new \Http\Adapter\Guzzle6\Client();
+        $httpClient = new \Http\Adapter\Guzzle7\Client();
         $requestFactory = new GuzzleMessageFactory();
 
         $prowl = $this->factoryCreateCustom($httpClient, $requestFactory);
@@ -136,7 +136,7 @@ class ProwlTest extends TestCase
      */
     public function it_adds_notification_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -158,7 +158,7 @@ class ProwlTest extends TestCase
      */
     public function it_send_notification_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -180,7 +180,7 @@ class ProwlTest extends TestCase
      */
     public function it_push_notification_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -202,7 +202,7 @@ class ProwlTest extends TestCase
      */
     public function it_verifies_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -222,7 +222,7 @@ class ProwlTest extends TestCase
      */
     public function it_retrieves_token_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
@@ -241,7 +241,7 @@ class ProwlTest extends TestCase
      */
     public function it_retrieves_api_key_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
