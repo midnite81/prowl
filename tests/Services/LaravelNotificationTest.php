@@ -6,26 +6,28 @@ use Midnite81\Prowl\Services\LaravelNotification;
 
 class LaravelNotificationTest extends NotificationTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../Functions.php';
     }
-    
+
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_the_api_key()
     {
         $notification = $this->factoryCreateFromArray();
 
-        $this->assertInternalType('array', $notification->getApiKeys());
+        $this->assertIsString($notification->getApiKeys());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_uses_default_device_if_not_specified()
     {
         $notification = $this->factoryCreateFromArray();
 
-        $this->assertContains(config('prowl')['keys'][config('prowl')['defaultKey']], $notification->getApiKeys());
+        $this->assertStringContainsString(
+            config('prowl')['keys'][config('prowl')['defaultKey']],
+            $notification->getApiKeys()
+        );
     }
 
     /**

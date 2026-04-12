@@ -9,21 +9,20 @@ use Midnite81\Prowl\Prowl;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientInterface;
 
 class LaravelProwlTest extends ProwlTest
 {
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         include_once 'Functions.php';
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_sends_message_when_created_through_prowl()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle7\Client::class);
+        $mockedHttpClient = \Mockery::mock(ClientInterface::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
