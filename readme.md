@@ -25,7 +25,7 @@ information on PHP-HTTP, please visit [php-http.org](http://docs.php-http.org/)
 | Version | Description                                                                            |
 |---------|----------------------------------------------------------------------------------------|
 | v4.*    | Minimum PHP 8.2, PSR-17 request/stream factories, and modernised PHPUnit 11 test suite |
-| v3.*    | Support added to use Carbon 1 or 2 as a dependency                                     |
+| v3.*    | Support added to use Carbon 3 as a dependency                                            |
 | v2.*    | Completely rewritten from the ground up, with no additional prowl dependencies         |
 | v1.*    | Unsupported - Relied on other prowl packages                                           |
 
