@@ -2,11 +2,12 @@
 
 namespace Midnite81\Prowl;
 
-use Http\Message\RequestFactory;
 use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
 use Midnite81\Prowl\Exceptions\ValueTooLongException;
 use Midnite81\Prowl\Services\LaravelNotification;
 use Midnite81\Prowl\Services\Notification;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 class LaravelProwl extends Prowl
 {
@@ -14,13 +15,19 @@ class LaravelProwl extends Prowl
      * Prowl constructor.
      *
      * @param null                $httpClient
-     * @param RequestFactory|null $requestFactory
+     * @param RequestFactoryInterface|null $requestFactory
+     * @param StreamFactoryInterface|null $streamFactory
      * @param array               $config
      */
-    public function __construct($httpClient = null, RequestFactory $requestFactory = null, array $config = [])
+    public function __construct(
+        $httpClient = null,
+        RequestFactoryInterface $requestFactory = null,
+        StreamFactoryInterface $streamFactory = null,
+        array $config = []
+    )
     {
         $config = (empty($config)) ? config('prowl', []) : $config;
-        parent::__construct($httpClient, $requestFactory, $config);
+        parent::__construct($httpClient, $requestFactory, $streamFactory, $config);
     }
 
     /**

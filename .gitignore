@@ -1,7 +1,14 @@
+## Local machine artefacts
+.DS_Store
+.midnite.config.json
+.phpunit.result.cache
+
+## Tooling and generated directories
 /.idea
 /.test
 /build
 /docs
 /vendor
+
+## Dependency lockfile
 composer.lock
-.DS_Store

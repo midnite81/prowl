@@ -2,14 +2,14 @@
 
 namespace Midnite81\Prowl;
 
-use Http\Adapter\Guzzle6\Client;
-use Http\Message\MessageFactory\GuzzleMessageFactory;
-use Http\Message\RequestFactory;
+use Http\Adapter\Guzzle7\Client as Guzzle7Client;
 use Http\Discovery\HttpClientDiscovery;
-use Http\Discovery\MessageFactoryDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Midnite81\Prowl\Contracts\Prowl as Contract;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 class Prowl implements Contract
 {
@@ -18,18 +18,26 @@ class Prowl implements Contract
     protected $httpClient;
 
     protected $requestFactory;
+    protected $streamFactory;
 
     /**
      * Prowl constructor.
      *
      * @param null                $httpClient
-     * @param RequestFactory|null $requestFactory
+     * @param RequestFactoryInterface|null $requestFactory
+     * @param StreamFactoryInterface|null $streamFactory
      * @param array               $config
      */
-    public function __construct($httpClient = null, RequestFactory $requestFactory = null, array $config = [])
+    public function __construct(
+        $httpClient = null,
+        RequestFactoryInterface $requestFactory = null,
+        StreamFactoryInterface $streamFactory = null,
+        array $config = []
+    )
     {
         $this->httpClient = $httpClient ?: HttpClientDiscovery::find();
-        $this->requestFactory = $requestFactory ?: MessageFactoryDiscovery::find();
+        $this->requestFactory = $requestFactory ?: Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = $streamFactory ?: Psr17FactoryDiscovery::findStreamFactory();
         $this->processConfig($config);
     }
 
@@ -41,18 +49,27 @@ class Prowl implements Contract
      */
     public static function create($config = [])
     {
-        return new static(new Client(), new GuzzleMessageFactory(), $config);
+        $factory = Psr17FactoryDiscovery::findRequestFactory();
+        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+
+        return new static(new Guzzle7Client(), $factory, $streamFactory, $config);
     }
 
     /**
      * @param                $httpClient
-     * @param RequestFactory $requestFactory
+     * @param RequestFactoryInterface $requestFactory
+     * @param StreamFactoryInterface|null $streamFactory
      * @param array          $config
      * @return static
      */
-    public static function createCustom($httpClient, RequestFactory $requestFactory, $config = [])
+    public static function createCustom(
+        $httpClient,
+        RequestFactoryInterface $requestFactory,
+        StreamFactoryInterface $streamFactory = null,
+        $config = []
+    )
     {
-        return new static($httpClient, $requestFactory, $config);
+        return new static($httpClient, $requestFactory, $streamFactory, $config);
     }
 
 
@@ -68,9 +85,11 @@ class Prowl implements Contract
      */
     public function add(Notification $notification)
     {
-        $request = $this->requestFactory->createRequest('POST', $this->makeUrl('add'), [
-            'Content-Type' => 'application/x-www-form-urlencoded'
-        ], http_build_query($notification->formParams(), null, '&'));
+        $request = $this->requestFactory->createRequest('POST', $this->makeUrl('add'))
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody($this->streamFactory->createStream(
+                http_build_query($notification->formParams(), '', '&')
+            ));
 
         $request = $this->httpClient->sendRequest($request);
 
@@ -227,7 +246,7 @@ class Prowl implements Contract
      */
     protected function makeUrl($action, array $queryString = [])
     {
-        $queryString = http_build_query($queryString, null, "&");
+        $queryString = http_build_query($queryString, '', "&");
         $queryString = (! empty($queryString)) ? '?' . $queryString : '';
 
         return $this->getApiUrl() . '/' . $action . $queryString;

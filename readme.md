@@ -1,10 +1,10 @@
 # Prowl 
-[![Latest Stable Version](https://poser.pugx.org/midnite81/prowl/version)](https://packagist.org/packages/midnite81/prowl) [![Total Downloads](https://poser.pugx.org/midnite81/prowl/downloads)](https://packagist.org/packages/midnite81/prowl) [![Latest Unstable Version](https://poser.pugx.org/midnite81/prowl/v/unstable)](https://packagist.org/packages/midnite81/prowl) [![License](https://poser.pugx.org/midnite81/prowl/license.svg)](https://packagist.org/packages/midnite81/prowl) [![Build](https://travis-ci.org/midnite81/prowl.svg?branch=master)](https://travis-ci.org/midnite81/prowl) [![Coverage Status](https://coveralls.io/repos/github/midnite81/prowl/badge.svg?branch=master)](https://coveralls.io/github/midnite81/prowl?branch=master)   
+[![Latest Stable Version](https://poser.pugx.org/midnite81/prowl/version)](https://packagist.org/packages/midnite81/prowl) [![Total Downloads](https://poser.pugx.org/midnite81/prowl/downloads)](https://packagist.org/packages/midnite81/prowl) [![Latest Unstable Version](https://poser.pugx.org/midnite81/prowl/v/unstable)](https://packagist.org/packages/midnite81/prowl) [![License](https://poser.pugx.org/midnite81/prowl/license.svg)](https://packagist.org/packages/midnite81/prowl)   
 _A PHP wrapper for using the [Prowl API](https://www.prowlapp.com), with a Laravel 5 service provider for integration with Laravel_
 
 # Installation
 
-This package requires PHP 5.6+, and comes with a Laravel Service Provider and Facade for Laravel integration. 
+This package requires PHP 8.2+, and comes with a Laravel Service Provider and Facade for Laravel integration.
 Please note, you do not need to have laravel installed to use this package. 
 
 To install through composer include the package in your `composer.json`.
@@ -22,11 +22,12 @@ This allows you, should you wish, to use your own HTTP Client instead of Guzzle.
 information on PHP-HTTP, please visit [php-http.org](http://docs.php-http.org/)
 
 ## Versioning
-|Version|Description|
-|---|---|
-|v3.*|Support added to use Carbon 1 or 2 as a dependency|
-|v2.*|Completely rewritten from the ground up, with no additional prowl dependencies|
-|v1.*|Unsupported - Relied on other prowl packages|
+| Version | Description                                                                            |
+|---------|----------------------------------------------------------------------------------------|
+| v4.*    | Minimum PHP 8.2, PSR-17 request/stream factories, and modernised PHPUnit 11 test suite |
+| v3.*    | Support added to use Carbon 3 as a dependency                                            |
+| v2.*    | Completely rewritten from the ground up, with no additional prowl dependencies         |
+| v1.*    | Unsupported - Relied on other prowl packages                                           |
 
 ## Laravel 5 Integration
 
@@ -54,12 +55,12 @@ $prowl = Prowl::create(['apiUrl' => 'https://api.prowlapp.com/publicapi']);
 
 There are four main methods on the Prowl class, which identify the main four api calls you can make. 
 
-|Api Method      |Prowl Method                                  |Description                                                          |
-|----------------|----------------------------------------------|---------------------------------------------------------------------|
-|add             | $prowl->add(Notification $notification)      | Sends a push notification to one or more devices                    |
-|verify          | $prowl->verify($apiKey, $providerKey)        | Verifies the api key is valid                                       |
-|retrieve/token  | $prowl->retrieveToken($providerKey)          | Get a registration token for use in retrieve/apikey                 |
-|retrieve/apikey | $prowl->retrieveApiKey($providerKey, $token) | Get an API Key from a registration token received in retrieve/token |
+| Api Method      | Prowl Method                                 | Description                                                         |
+|-----------------|----------------------------------------------|---------------------------------------------------------------------|
+| add             | $prowl->add(Notification $notification)      | Sends a push notification to one or more devices                    |
+| verify          | $prowl->verify($apiKey, $providerKey)        | Verifies the api key is valid                                       |
+| retrieve/token  | $prowl->retrieveToken($providerKey)          | Get a registration token for use in retrieve/apikey                 |
+| retrieve/apikey | $prowl->retrieveApiKey($providerKey, $token) | Get an API Key from a registration token received in retrieve/token |
 
  To understand what each of these api calls does, you should check out the documentation at 
  [https://www.prowlapp.com/api.php](https://www.prowlapp.com/api.php)
