@@ -1,10 +1,10 @@
 # Prowl 
-[![Latest Stable Version](https://poser.pugx.org/midnite81/prowl/version)](https://packagist.org/packages/midnite81/prowl) [![Total Downloads](https://poser.pugx.org/midnite81/prowl/downloads)](https://packagist.org/packages/midnite81/prowl) [![Latest Unstable Version](https://poser.pugx.org/midnite81/prowl/v/unstable)](https://packagist.org/packages/midnite81/prowl) [![License](https://poser.pugx.org/midnite81/prowl/license.svg)](https://packagist.org/packages/midnite81/prowl) [![Build](https://travis-ci.org/midnite81/prowl.svg?branch=master)](https://travis-ci.org/midnite81/prowl) [![Coverage Status](https://coveralls.io/repos/github/midnite81/prowl/badge.svg?branch=master)](https://coveralls.io/github/midnite81/prowl?branch=master)   
+[![Latest Stable Version](https://poser.pugx.org/midnite81/prowl/version)](https://packagist.org/packages/midnite81/prowl) [![Total Downloads](https://poser.pugx.org/midnite81/prowl/downloads)](https://packagist.org/packages/midnite81/prowl) [![Latest Unstable Version](https://poser.pugx.org/midnite81/prowl/v/unstable)](https://packagist.org/packages/midnite81/prowl) [![License](https://poser.pugx.org/midnite81/prowl/license.svg)](https://packagist.org/packages/midnite81/prowl)   
 _A PHP wrapper for using the [Prowl API](https://www.prowlapp.com), with a Laravel 5 service provider for integration with Laravel_
 
 # Installation
 
-This package requires PHP 5.6+, and comes with a Laravel Service Provider and Facade for Laravel integration. 
+This package requires PHP 8.2+, and comes with a Laravel Service Provider and Facade for Laravel integration.
 Please note, you do not need to have laravel installed to use this package. 
 
 To install through composer include the package in your `composer.json`.

@@ -5,6 +5,7 @@ namespace Midnite81\Prowl\Tests\Services;
 use Midnite81\Prowl\Services\Response;
 use Midnite81\Xml2Array\Xml2Array;
 use Midnite81\Xml2Array\XmlResponse;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -24,23 +25,19 @@ class ResponseTest extends TestCase
     protected $retrieveTokenResponse;
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_constructs()
     {
         $this->assertInstanceOf(Response::class, $this->response);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_json_when_hitting_the_to_string_method()
     {
         $response = $this->response . '';
         $responseArray = json_decode($response, true);
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
         $this->assertJson($response);
 
         $this->assertArrayHasKey('isSuccess', $responseArray);
@@ -54,14 +51,12 @@ class ResponseTest extends TestCase
         $this->assertArrayHasKey('retrieveToken', $responseArray);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_an_array()
     {
         $array = $this->response->toArray();
 
-        $this->assertInternalType('array', $array);
+        $this->assertIsArray($array);
         $this->assertArrayHasKey('isSuccess', $array);
         $this->assertArrayHasKey('isError', $array);
         $this->assertArrayHasKey('statusCode', $array);
@@ -73,20 +68,16 @@ class ResponseTest extends TestCase
         $this->assertArrayHasKey('retrieveToken', $array);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_json()
     {
         $json = $this->response->toJson();
 
-        $this->assertInternalType('string', $json);
+        $this->assertIsString($json);
         $this->assertJson($json);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_underlying_response()
     {
         $response = $this->response->getResponse();
@@ -94,20 +85,16 @@ class ResponseTest extends TestCase
         $this->assertInstanceOf(\Psr\Http\Message\ResponseInterface::class, $response);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_the_body()
     {
         $response = $this->response->getContents();
 
-        $this->assertInternalType('string', $response);
-        $this->stringContains('xml');
+        $this->assertIsString($response);
+        $this->assertStringContainsString('xml', $response);
     }
     
-    /** 
-     * @test 
-     */
+    #[Test]
     public function it_returns_formatted_xml()
     {
         $response = $this->response->getFormattedXml();
@@ -115,9 +102,7 @@ class ResponseTest extends TestCase
         $this->assertInstanceOf(XmlResponse::class, $response);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_error_codes()
     {
         $response = $this->failedResponse;
@@ -127,9 +112,7 @@ class ResponseTest extends TestCase
         $this->assertEquals(true, $response->isError());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_retrieve_key()
     {
         $response = $this->retrieveApiKeyResponse;
@@ -137,9 +120,7 @@ class ResponseTest extends TestCase
         $this->assertEquals('APIKEY', $response->getRetrieveApiKey());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_token()
     {
         $response = $this->retrieveTokenResponse;
@@ -151,7 +132,7 @@ class ResponseTest extends TestCase
     /**
      * @throws \Exception
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $successMessage = <<<body
 <?xml version="1.0" encoding="UTF-8"?>

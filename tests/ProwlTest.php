@@ -2,26 +2,27 @@
 namespace Midnite81\Prowl\Tests;
 
 use Carbon\Carbon;
-use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use Midnite81\Prowl\Exceptions\IncorrectPriorityValueException;
+use Midnite81\Prowl\Exceptions\ValueTooLongException;
 use Midnite81\Prowl\Prowl;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
 use Midnite81\Prowl\Tests\Traits\GenerateStrings;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ProwlTest extends TestCase
 {
     use GenerateStrings;
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         \Mockery::close();
+        parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_constructs_without_parameters()
     {
         $prowl = $this->instantiateProwl();
@@ -29,9 +30,7 @@ class ProwlTest extends TestCase
         $this->assertInstanceOf(Prowl::class, $prowl);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_constructs_using_factory_method()
     {
         $prowl = $this->factoryCreate();
@@ -39,22 +38,18 @@ class ProwlTest extends TestCase
         $this->assertInstanceOf(Prowl::class, $prowl);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_constructs_using_custom_factory_method()
     {
-        $httpClient = new \Http\Adapter\Guzzle6\Client();
-        $requestFactory = new GuzzleMessageFactory();
+        $httpClient = new \Http\Adapter\Guzzle7\Client();
+        $requestFactory = new Psr17Factory();
 
         $prowl = $this->factoryCreateCustom($httpClient, $requestFactory);
 
         $this->assertInstanceOf(Prowl::class, $prowl);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_creates_message_object()
     {
         $prowl = $this->factoryCreate();
@@ -64,64 +59,52 @@ class ProwlTest extends TestCase
         $this->assertInstanceOf(Notification::class, $message);
     }
 
-    /**
-     * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\IncorrectPriorityValueException
-     */
+    #[Test]
     public function it_throws_exception_for_incorrect_priority_range()
     {
+        $this->expectException(IncorrectPriorityValueException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setPriority(6);
     }
 
-     /**
-      * @test
-      * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
-      */
+    #[Test]
      public function it_throws_exception_for_too_long_url()
      {
+         $this->expectException(ValueTooLongException::class);
          /** @var Prowl $prowl */
          $prowl = $this->factoryCreate();
          $prowl->createMessage()->setUrl($this->stringLength(513));
      }
 
-    /**
-     * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
-     */
+    #[Test]
     public function it_throws_exception_for_too_long_application()
     {
+        $this->expectException(ValueTooLongException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setApplication($this->stringLength(260));
     }
 
-    /**
-     * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
-     */
+    #[Test]
     public function it_throws_exception_for_too_long_event()
     {
+        $this->expectException(ValueTooLongException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setEvent($this->stringLength(1030));
     }
 
-    /**
-     * @test
-     * @expectedException \Midnite81\Prowl\Exceptions\ValueTooLongException
-     */
+    #[Test]
     public function it_throws_exception_for_too_long_description()
     {
+        $this->expectException(ValueTooLongException::class);
         /** @var Prowl $prowl */
         $prowl = $this->factoryCreate();
         $prowl->createMessage()->setDescription($this->stringLength(100100));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_creates_message_alias_object()
     {
         $prowl = $this->factoryCreate();
@@ -131,18 +114,16 @@ class ProwlTest extends TestCase
         $this->assertInstanceOf(Notification::class, $message);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_adds_notification_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Client\HttpClient::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
         $notification = Notification::create('test', 'test', 'test', 'test', 0, 'test');
 
-        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowl = Prowl::createCustom($mockedHttpClient, new Psr17Factory(), new Psr17Factory(), []);
         $prowlResponse = $prowl->add($notification);
 
         $this->assertInstanceOf(Response::class, $prowlResponse);
@@ -153,18 +134,16 @@ class ProwlTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_send_notification_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Client\HttpClient::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
         $notification = Notification::create('test', 'test', 'test', 'test', 0, 'test');
 
-        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowl = Prowl::createCustom($mockedHttpClient, new Psr17Factory(), new Psr17Factory(), []);
         $prowlResponse = $prowl->send($notification);
 
         $this->assertInstanceOf(Response::class, $prowlResponse);
@@ -175,18 +154,16 @@ class ProwlTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_push_notification_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Client\HttpClient::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
         $notification = Notification::create('test', 'test', 'test', 'test', 0, 'test');
 
-        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowl = Prowl::createCustom($mockedHttpClient, new Psr17Factory(), new Psr17Factory(), []);
         $prowlResponse = $prowl->push($notification);
 
         $this->assertInstanceOf(Response::class, $prowlResponse);
@@ -197,16 +174,14 @@ class ProwlTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_verifies_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Client\HttpClient::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
-        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowl = Prowl::createCustom($mockedHttpClient, new Psr17Factory(), new Psr17Factory(), []);
         $prowlResponse = $prowl->verify('test');
 
         $this->assertInstanceOf(Response::class, $prowlResponse);
@@ -217,16 +192,14 @@ class ProwlTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_retrieves_token_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Client\HttpClient::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
-        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowl = Prowl::createCustom($mockedHttpClient, new Psr17Factory(), new Psr17Factory(), []);
         $prowlResponse = $prowl->retrieveToken('test');
 
         $this->assertInstanceOf(Response::class, $prowlResponse);
@@ -236,16 +209,14 @@ class ProwlTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $prowlResponse->getResetDate());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_retrieves_api_key_and_returns_response_object()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Client\HttpClient::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
-        $prowl = Prowl::createCustom($mockedHttpClient, new GuzzleMessageFactory(), []);
+        $prowl = Prowl::createCustom($mockedHttpClient, new Psr17Factory(), new Psr17Factory(), []);
         $prowlResponse = $prowl->retrieveApiKey('test', 'test');
 
         $this->assertInstanceOf(Response::class, $prowlResponse);

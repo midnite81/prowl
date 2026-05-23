@@ -21,6 +21,7 @@ class Notification implements Contract
      * @var array
      */
     protected $devices = [];
+    protected $prowl;
 
     /**
      * Notification constructor.

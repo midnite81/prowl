@@ -3,31 +3,31 @@
 namespace Midnite81\Prowl\Tests;
 
 use Carbon\Carbon;
-use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use Midnite81\Prowl\LaravelProwl;
 use Midnite81\Prowl\Prowl;
 use Midnite81\Prowl\Services\Notification;
 use Midnite81\Prowl\Services\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class LaravelProwlTest extends ProwlTest
 {
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         include_once 'Functions.php';
+        parent::setUpBeforeClass();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_sends_message_when_created_through_prowl()
     {
-        $mockedHttpClient = \Mockery::mock(\Http\Adapter\Guzzle6\Client::class);
+        $mockedHttpClient = \Mockery::mock(\Http\Client\HttpClient::class);
 
         $mockedHttpClient->shouldReceive('sendRequest')->once()->andReturn($this->successResponse());
 
-        $prowl = $this->factoryCreateCustom($mockedHttpClient, new GuzzleMessageFactory());
+        $prowl = $this->factoryCreateCustom($mockedHttpClient, new Psr17Factory());
 
         $send = $prowl->createMessage([
             'apiKey' => ['some-value'],
